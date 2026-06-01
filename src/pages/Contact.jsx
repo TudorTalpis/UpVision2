@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Magnetic } from '../components/Primitives.jsx'
 import { setMeta, setJsonLd } from '../lib/seo'
-import { useLocale } from '../lib/i18n'
+import { useLocale, useT } from '../lib/i18n'
 
 const BUDGETS = ['< $3k', '$3–9k', '$9–20k', '$20k+']
-const NEEDS = ['Custom website', 'Landing page', 'Business website', 'Web app', 'E-commerce', 'Automation (add-on)']
 
 export default function Contact() {
   const [step, setStep] = useState(0)
   const [data, setData] = useState({ name: '', email: '', company: '', budget: '', needs: [], note: '' })
   const [sent, setSent] = useState(false)
   const { locale } = useLocale()
+  const t = useT()
+  const NEEDS = t('contact.needs').split(',')
+  const STEPS = t('contact.steps').split(',')
 
   useEffect(() => {
     setMeta({
@@ -37,15 +38,12 @@ export default function Contact() {
       <div className="shell relative z-10 grid lg:grid-cols-2 gap-[clamp(40px,6vw,90px)] items-start">
         {/* left */}
         <div className="lg:sticky lg:top-32">
-          <span className="eyebrow mb-7">Start your project</span>
-          <h1 className="display-lg mt-5 mb-7 max-w-[12ch]">Let's build your website.</h1>
-          <p className="text-lg text-ink-soft max-w-[44ch] mb-9">
-            Book a free 30-minute call. Tell us what you need and we'll map the
-            shortest path to a website that works — whether or not we build it together.
-          </p>
+          <span className="eyebrow mb-7">{t('contact.eyebrow')}</span>
+          <h1 className="display-lg mt-5 mb-7 max-w-[12ch]">{t('contact.title')}</h1>
+          <p className="text-lg text-ink-soft max-w-[44ch] mb-9">{t('contact.intro')}</p>
           <ul className="space-y-3 mb-9">
-            {['Reply within one business day', 'A senior partner on the first call', 'No obligation, no hard sell'].map((t) => (
-              <li key={t} className="flex items-center gap-3 text-ink-soft"><span className="text-accent">✦</span>{t}</li>
+            {[t('contact.b1'), t('contact.b2'), t('contact.b3')].map((item) => (
+              <li key={item} className="flex items-center gap-3 text-ink-soft"><span className="text-accent">✦</span>{item}</li>
             ))}
           </ul>
           <a href="mailto:hello@upvision.studio" className="font-mono text-[15px] border-b border-accent pb-1" data-cursor="Email us">hello@upvision.studio</a>
@@ -55,7 +53,7 @@ export default function Contact() {
         <div className="rounded-2xl border border-line bg-panel p-7 md:p-9 shadow-[0_40px_90px_-50px_rgba(24,22,15,0.4)]">
           {!sent && (
             <div className="flex gap-2 mb-8">
-              {['You', 'Project', 'Details'].map((s, i) => (
+              {STEPS.map((s, i) => (
                 <span key={s} className={`flex-1 text-center font-mono text-[11px] uppercase tracking-[0.12em] pb-2.5 border-b-2 transition-colors ${i <= step ? 'text-accent border-accent' : 'text-ink-faint border-line'}`}>{s}</span>
               ))}
             </div>
@@ -65,40 +63,40 @@ export default function Contact() {
             {sent ? (
               <motion.div key="done" className="text-center py-10" initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }}>
                 <div className="w-16 h-16 mx-auto rounded-full bg-accent text-white grid place-items-center text-2xl mb-6">✓</div>
-                <h3 className="font-display text-3xl font-semibold mb-3">Got it, {data.name.split(' ')[0] || 'there'}.</h3>
-                <p className="text-ink-soft">We're already thinking about it. Expect a note at <strong>{data.email}</strong> within a business day.</p>
+                <h3 className="font-display text-3xl font-semibold mb-3">{t('contact.gotIt')}, {data.name.split(' ')[0] || ''}.</h3>
+                <p className="text-ink-soft">{t('contact.gotItBody')} <strong>{data.email}</strong></p>
               </motion.div>
             ) : (
               <motion.form key={step} onSubmit={(e) => { e.preventDefault(); setSent(true) }}
                 initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }} transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}>
                 {step === 0 && (
                   <div className="space-y-5">
-                    <Field label="Your name"><input autoFocus value={data.name} onChange={(e) => setData({ ...data, name: e.target.value })} placeholder="Jordan Rivera" /></Field>
-                    <Field label="Email"><input type="email" value={data.email} onChange={(e) => setData({ ...data, email: e.target.value })} placeholder="jordan@company.com" /></Field>
-                    <Field label="Company (optional)"><input value={data.company} onChange={(e) => setData({ ...data, company: e.target.value })} placeholder="Company Inc." /></Field>
+                    <Field label={t('contact.name')}><input autoFocus value={data.name} onChange={(e) => setData({ ...data, name: e.target.value })} placeholder="Jordan Rivera" /></Field>
+                    <Field label={t('contact.email')}><input type="email" value={data.email} onChange={(e) => setData({ ...data, email: e.target.value })} placeholder="jordan@company.com" /></Field>
+                    <Field label={t('contact.company')}><input value={data.company} onChange={(e) => setData({ ...data, company: e.target.value })} placeholder="Company Inc." /></Field>
                   </div>
                 )}
                 {step === 1 && (
                   <div className="space-y-7">
                     <div>
-                      <span className="text-[15px] text-ink-soft block mb-3">Rough budget</span>
+                      <span className="text-[15px] text-ink-soft block mb-3">{t('contact.budget')}</span>
                       <div className="flex flex-wrap gap-2.5">{BUDGETS.map((b) => <Chip key={b} on={data.budget === b} onClick={() => setData({ ...data, budget: b })}>{b}</Chip>)}</div>
                     </div>
                     <div>
-                      <span className="text-[15px] text-ink-soft block mb-3">What do you need? (pick any)</span>
+                      <span className="text-[15px] text-ink-soft block mb-3">{t('contact.needsQ')}</span>
                       <div className="flex flex-wrap gap-2.5">{NEEDS.map((n) => <Chip key={n} on={data.needs.includes(n)} onClick={() => toggle(n)}>{n}</Chip>)}</div>
                     </div>
                   </div>
                 )}
                 {step === 2 && (
-                  <Field label="Tell us about the goal"><textarea rows={6} value={data.note} onChange={(e) => setData({ ...data, note: e.target.value })} placeholder="We want to…" /></Field>
+                  <Field label={t('contact.goal')}><textarea rows={6} value={data.note} onChange={(e) => setData({ ...data, note: e.target.value })} placeholder="We want to…" /></Field>
                 )}
 
                 <div className="flex gap-3 mt-8">
-                  {step > 0 && <button type="button" className="btn btn--ghost" onClick={() => setStep((s) => s - 1)}>Back</button>}
+                  {step > 0 && <button type="button" className="btn btn--ghost" onClick={() => setStep((s) => s - 1)}>{t('contact.back')}</button>}
                   {step < 2
-                    ? <button type="button" className="btn btn--accent disabled:opacity-40 disabled:pointer-events-none" disabled={!canNext} onClick={() => canNext && setStep((s) => s + 1)} data-cursor="Next"><span className="btn__dot" /> Continue</button>
-                    : <button type="submit" className="btn btn--accent" data-cursor="Send"><span className="btn__dot" /> Send the brief</button>}
+                    ? <button type="button" className="btn btn--accent disabled:opacity-40 disabled:pointer-events-none" disabled={!canNext} onClick={() => canNext && setStep((s) => s + 1)} data-cursor="Next"><span className="btn__dot" /> {t('contact.continue')}</button>
+                    : <button type="submit" className="btn btn--accent" data-cursor="Send"><span className="btn__dot" /> {t('contact.send')}</button>}
                 </div>
               </motion.form>
             )}

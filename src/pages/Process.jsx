@@ -2,15 +2,17 @@ import { useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import PageHero from '../components/PageHero.jsx'
 import { Reveal, Magnetic } from '../components/Primitives.jsx'
-import { PROCESS } from '../lib/data'
 import { setMeta } from '../lib/seo'
-import { useLocale } from '../lib/i18n'
+import { useLocale, useT } from '../lib/i18n'
+import { useContent } from '../lib/i18n/content.js'
 
 export default function Process() {
   const track = useRef(null)
   const { scrollYProgress } = useScroll({ target: track, offset: ['start 30%', 'end 70%'] })
   const fill = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
   const { locale } = useLocale()
+  const t = useT()
+  const { PROCESS } = useContent()
 
   useEffect(() => setMeta({
     title: 'How We Build Websites — UpVision Process',
@@ -21,9 +23,9 @@ export default function Process() {
   return (
     <>
       <PageHero
-        eyebrow="The method"
-        titleLines={['A process that', 'de-risks the spend.']}
-        intro="No black boxes. Five clear stages, each ending in something tangible you can see, click and measure — so momentum is always visible."
+        eyebrow={t('proc.eyebrow')}
+        titleLines={t('proc.title').split('|')}
+        intro={t('proc.intro')}
       />
 
       <section className="relative pb-[clamp(70px,11vh,150px)]">
@@ -43,19 +45,19 @@ export default function Process() {
                     <div>
                       <div className="flex items-center gap-4 mb-5">
                         <span className="grid place-items-center w-12 h-12 rounded-full border border-line-strong font-mono text-sm">{p.n}</span>
-                        <span className="font-mono text-xs uppercase tracking-[0.18em] text-ink-faint">Stage {p.n} / 05</span>
+                        <span className="font-mono text-xs uppercase tracking-[0.18em] text-ink-faint">{t('proc.stage')} {p.n} / 05</span>
                       </div>
                       <h2 className="font-display text-[clamp(30px,4.5vw,56px)] font-semibold mb-4">{p.title}</h2>
                       <p className="text-lg text-ink-soft max-w-[48ch]">{p.d}</p>
                     </div>
                     <div className="md:pt-2">
                       <div className="rounded-xl border border-line bg-panel p-6">
-                        <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-faint">You leave with</span>
+                        <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-faint">{t('proc.youLeave')}</span>
                         <div className="font-display text-2xl font-semibold mt-2 text-gain">{p.out}</div>
                         <div className="mt-5 h-1.5 rounded-full bg-line overflow-hidden">
                           <motion.div className="h-full bg-gain rounded-full" initial={{ width: 0 }} whileInView={{ width: `${((i + 1) / PROCESS.length) * 100}%` }} viewport={{ once: false }} transition={{ duration: 1, delay: 0.2 }} />
                         </div>
-                        <span className="font-mono text-[11px] text-ink-faint mt-2 inline-block">{Math.round(((i + 1) / PROCESS.length) * 100)}% to revenue</span>
+                        <span className="font-mono text-[11px] text-ink-faint mt-2 inline-block">{Math.round(((i + 1) / PROCESS.length) * 100)}% {t('proc.toRevenue')}</span>
                       </div>
                     </div>
                   </div>
@@ -68,8 +70,8 @@ export default function Process() {
 
       <section className="relative py-[clamp(60px,9vh,120px)] text-center bg-paper-2/40 border-y border-line">
         <div className="shell max-w-2xl mx-auto">
-          <h2 className="display-md mb-7">Ready to start at stage one?</h2>
-          <Magnetic to="/contact" className="btn btn--accent" cursor="Book a call"><span className="btn__dot" /> Book a discovery call</Magnetic>
+          <h2 className="display-md mb-7">{t('proc.ctaT')}</h2>
+          <Magnetic to="/contact" className="btn btn--accent" cursor="Book a call"><span className="btn__dot" /> {t('proc.ctaBtn')}</Magnetic>
         </div>
       </section>
     </>

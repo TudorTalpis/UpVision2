@@ -1,19 +1,12 @@
 import { useRef, useLayoutEffect } from 'react'
 import { gsap, ScrollTrigger, registerGsap, prefersReduced } from '../lib/gsap'
-
-const PHASES = [
-  ['Wireframe', 'A rough structure — boxes and intent.'],
-  ['Design', 'Structure becomes a polished, branded interface.'],
-  ['Code', 'The design turns into clean, modern code.'],
-  ['Edit', "We refine, line by line, until it's right."],
-  ['Compile', 'It builds — accessibility, SEO and speed checked.'],
-  ['Launch', 'The finished website goes live.'],
-  ['Visitors', 'Real people arrive and start engaging.'],
-  ['Growth', 'Leads and revenue climb, month after month.'],
-]
+import { useT } from '../lib/i18n'
+import { useContent } from '../lib/i18n/content.js'
 
 export default function Journey() {
   const root = useRef(null)
+  const t = useT()
+  const PHASES = useContent().journey
 
   useLayoutEffect(() => {
     registerGsap()
@@ -63,14 +56,11 @@ export default function Journey() {
       <div className="ledger-grid" />
       <div className="shell relative z-10">
         <div className="max-w-[760px] mb-[clamp(40px,7vh,80px)]">
-          <span className="eyebrow">How a website gets built</span>
+          <span className="eyebrow">{t('journey.eyebrow')}</span>
           <h2 className="display-lg mt-6 mb-5">
-            Watch an idea become a <span className="serif-italic text-accent">working website.</span>
+            {t('journey.title')} <span className="serif-italic text-accent">{t('journey.titleAccent')}</span>
           </h2>
-          <p className="text-lg text-ink-soft max-w-[54ch]">
-            From a rough wireframe to a live site winning customers — this is what
-            we actually do, and how it turns into business growth.
-          </p>
+          <p className="text-lg text-ink-soft max-w-[54ch]">{t('journey.sub')}</p>
         </div>
 
         <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-[clamp(24px,4vw,64px)]">

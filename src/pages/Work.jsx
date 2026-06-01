@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import PageHero from '../components/PageHero.jsx'
 import { Reveal } from '../components/Primitives.jsx'
-import { PROJECTS } from '../lib/data'
 import { setMeta } from '../lib/seo'
 import { isTouch } from '../lib/hooks'
-import { useLocale } from '../lib/i18n'
+import { useLocale, useT, LocaleLink as Link } from '../lib/i18n'
+import { useContent } from '../lib/i18n/content.js'
 
 export default function Work() {
   const [hover, setHover] = useState(null)
   const preview = useRef(null)
   const touch = typeof window !== 'undefined' && isTouch()
   const { locale } = useLocale()
+  const t = useT()
+  const { PROJECTS } = useContent()
 
   useEffect(() => setMeta({
     title: 'Web Development Portfolio — UpVision Moldova',
@@ -32,9 +33,9 @@ export default function Work() {
   return (
     <>
       <PageHero
-        eyebrow="Selected work"
-        titleLines={['Websites that', 'drive results.']}
-        intro="We don't measure projects in pixels. We measure them in conversion lift, revenue and time-to-launch. Here's a sample."
+        eyebrow={t('work.eyebrow')}
+        titleLines={t('work.title').split('|')}
+        intro={t('work.intro')}
       />
 
       {/* desktop: hover-reveal list · mobile: cards */}
