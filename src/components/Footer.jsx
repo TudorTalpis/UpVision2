@@ -39,7 +39,7 @@ export default function Footer() {
 
         <div className="flex flex-col md:flex-row md:justify-between gap-3 pt-7 font-mono text-[12px] text-paper/45">
           <span>© {year} UpVision Studio</span>
-          <span>Idea → Research → Brand → Design → Build → Launch → Growth → Revenue</span>
+          <span>Discover → Design → Build → Launch → Grow</span>
         </div>
       </div>
     </footer>

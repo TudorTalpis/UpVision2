@@ -23,7 +23,7 @@ export default function Process() {
       <PageHero
         eyebrow="The method"
         titleLines={['A process that', 'de-risks the spend.']}
-        intro="No black boxes. Six clear stages, each ending in something tangible you can see, click and measure — so momentum is always visible."
+        intro="No black boxes. Five clear stages, each ending in something tangible you can see, click and measure — so momentum is always visible."
       />
 
       <section className="relative pb-[clamp(70px,11vh,150px)]">
@@ -43,7 +43,7 @@ export default function Process() {
                     <div>
                       <div className="flex items-center gap-4 mb-5">
                         <span className="grid place-items-center w-12 h-12 rounded-full border border-line-strong font-mono text-sm">{p.n}</span>
-                        <span className="font-mono text-xs uppercase tracking-[0.18em] text-ink-faint">Stage {p.n} / 06</span>
+                        <span className="font-mono text-xs uppercase tracking-[0.18em] text-ink-faint">Stage {p.n} / 05</span>
                       </div>
                       <h2 className="font-display text-[clamp(30px,4.5vw,56px)] font-semibold mb-4">{p.title}</h2>
                       <p className="text-lg text-ink-soft max-w-[48ch]">{p.d}</p>

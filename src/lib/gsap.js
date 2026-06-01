@@ -22,9 +22,6 @@ export function connectLenis(lenis) {
   return () => { lenis.off('scroll', onScroll) }
 }
 
-/** Shared matchMedia instance for breakpoint-scoped animations. */
-export const mm = typeof window !== 'undefined' ? gsap.matchMedia() : null
-
 export { gsap, ScrollTrigger }
 
 if (typeof window !== 'undefined') {

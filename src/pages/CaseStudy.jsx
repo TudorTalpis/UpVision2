@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Reveal, MaskTitle, Magnetic } from '../components/Primitives.jsx'
-import { PROJECTS, STAGES } from '../lib/data'
+import { PROJECTS } from '../lib/data'
 import { setMeta, setJsonLd, breadcrumbLd } from '../lib/seo'
 import { useLocale } from '../lib/i18n'
 
@@ -98,7 +98,7 @@ export default function CaseStudy() {
           <div className="space-y-12">
             {[
               ['The challenge', `${p.name} had real demand but a digital presence that undersold it — confusing, slow, and disconnected from how the business actually made money.`],
-              ['Our approach', 'We ran the engagement as one continuous system: research and positioning first, then brand, design and engineering — instrumented so we could prove the lift.'],
+              ['Our approach', 'We designed and built the site as one team — structure and UX first, then a fast, accessible React build — instrumented so we could prove the lift.'],
               ['The outcome', `${p.result}. More than a redesign — a measurable shift in how the business acquires and converts customers.`],
             ].map(([t, d], i) => (
               <Reveal key={t} delay={i * 0.05} className="border-t border-line pt-7">

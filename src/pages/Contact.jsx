@@ -4,8 +4,8 @@ import { Magnetic } from '../components/Primitives.jsx'
 import { setMeta, setJsonLd } from '../lib/seo'
 import { useLocale } from '../lib/i18n'
 
-const BUDGETS = ['< $7k', '$7–18k', '$18–40k', '$40k+']
-const NEEDS = ['Website', 'Branding', 'UI/UX', 'Automation', 'Digitalization', 'Marketing', 'Strategy']
+const BUDGETS = ['< $3k', '$3–9k', '$9–20k', '$20k+']
+const NEEDS = ['Custom website', 'Landing page', 'Business website', 'Web app', 'E-commerce', 'Automation (add-on)']
 
 export default function Contact() {
   const [step, setStep] = useState(0)

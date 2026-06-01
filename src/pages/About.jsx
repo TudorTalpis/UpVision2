@@ -12,7 +12,7 @@ const VALUES = [
   ['Build to last', "Clean systems and code your team can own and maintain — never a black box you can't escape."],
 ]
 
-const MARQUEE = ['Strategy', 'Branding', 'UI/UX', 'React', 'Automation', 'SEO', 'Growth', 'Motion', 'E-commerce', 'Product']
+const MARQUEE = ['Custom websites', 'Landing pages', 'Business sites', 'Web apps', 'E-commerce', 'React', 'Performance', 'SEO', 'Responsive', 'Accessible']
 
 export default function About() {
   const { locale } = useLocale()
@@ -26,8 +26,8 @@ export default function About() {
     <>
       <PageHero
         eyebrow="The studio"
-        titleLines={['Strategists,', 'designers,', 'engineers.']}
-        intro="UpVision is a small, senior, founder-led studio. We got tired of watching great ideas die in handoffs between agencies — so we built one team that carries a vision from napkin to revenue."
+        titleLines={['Designers and', 'engineers who', 'build websites.']}
+        intro="UpVision is a small, senior, founder-led web development studio in Moldova. One team designs and builds your website end to end — no handoffs, no black boxes, just a site engineered to grow your business."
       />
 
       {/* marquee */}
