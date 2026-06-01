@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import PageHero from '../components/PageHero.jsx'
-import { Reveal, Magnetic } from '../components/Primitives.jsx'
+import { Reveal, Magnetic, Tilt } from '../components/Primitives.jsx'
 import { setMeta, setJsonLd, serviceListLd, breadcrumbLd } from '../lib/seo'
 import { useLocale, useT, LocaleLink as Link } from '../lib/i18n'
 import { useContent } from '../lib/i18n/content.js'
@@ -75,10 +75,10 @@ export default function Services() {
           <p className="text-ink-soft max-w-[60ch] mb-7">{ADDONS_NOTE}</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {ADDONS.map((a) => (
-              <div key={a.title} className="border border-line rounded-xl p-5">
+              <Tilt key={a.title} max={7} className="border border-line rounded-xl p-5 bg-panel h-full will-change-transform transition-[box-shadow,border-color] duration-300 hover:border-accent/40 hover:shadow-[0_22px_55px_-42px_rgba(24,22,15,0.55)]">
                 <h3 className="font-display text-lg font-semibold mb-1.5">{a.title}</h3>
                 <p className="text-ink-soft text-[14px]">{a.d}</p>
-              </div>
+              </Tilt>
             ))}
           </div>
         </div>

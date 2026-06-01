@@ -7,13 +7,15 @@ export const isReduced = () =>
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-/* 3D tilt-toward-pointer — desktop / fine-pointer only, transform-only. */
+/* 3D tilt-toward-pointer — desktop / fine-pointer only, transform-only.
+   Tracks the pointer responsively, then eases back slowly on leave. */
 export function useTilt(max = 6) {
   const ref = useRef(null)
   useEffect(() => {
     const el = ref.current
     if (!el || isTouch() || isReduced()) return
     let raf
+    const enter = () => { el.style.transition = 'transform 0.2s ease-out' }
     const move = (e) => {
       const r = el.getBoundingClientRect()
       const px = (e.clientX - r.left) / r.width - 0.5
@@ -24,10 +26,17 @@ export function useTilt(max = 6) {
           `perspective(900px) rotateX(${(-py * max).toFixed(2)}deg) rotateY(${(px * max).toFixed(2)}deg) translateY(-6px)`
       })
     }
-    const reset = () => { cancelAnimationFrame(raf); el.style.transform = '' }
+    const reset = () => {
+      cancelAnimationFrame(raf)
+      // slow, eased return to rest
+      el.style.transition = 'transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)'
+      el.style.transform = ''
+    }
+    el.addEventListener('mouseenter', enter)
     el.addEventListener('mousemove', move)
     el.addEventListener('mouseleave', reset)
     return () => {
+      el.removeEventListener('mouseenter', enter)
       el.removeEventListener('mousemove', move)
       el.removeEventListener('mouseleave', reset)
       cancelAnimationFrame(raf)

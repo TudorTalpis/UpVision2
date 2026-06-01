@@ -1,7 +1,7 @@
 import { Fragment, useRef, useLayoutEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { useMagnetic, useCountUp, isTouch } from '../lib/hooks'
+import { useMagnetic, useCountUp, useTilt, isTouch } from '../lib/hooks'
 import { useLocalePath } from '../lib/i18n'
 import { gsap, ScrollTrigger, registerGsap, prefersReduced } from '../lib/gsap'
 
@@ -84,6 +84,13 @@ export function Parallax({ children, speed = 0.12, className = '', as = 'div' })
     }, ref)
     return () => ctx.revert()
   }, [speed])
+  return <Tag ref={ref} className={className}>{children}</Tag>
+}
+
+/* Tilt-on-hover wrapper — eases back slowly on leave. Desktop only. */
+export function Tilt({ children, className = '', max = 6, as = 'div' }) {
+  const ref = useTilt(max)
+  const Tag = as
   return <Tag ref={ref} className={className}>{children}</Tag>
 }
 

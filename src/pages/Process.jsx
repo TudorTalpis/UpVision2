@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import PageHero from '../components/PageHero.jsx'
-import { Reveal, Magnetic } from '../components/Primitives.jsx'
+import { Reveal, Magnetic, Tilt } from '../components/Primitives.jsx'
 import { setMeta } from '../lib/seo'
 import { useLocale, useT } from '../lib/i18n'
 import { useContent } from '../lib/i18n/content.js'
@@ -51,14 +51,14 @@ export default function Process() {
                       <p className="text-lg text-ink-soft max-w-[48ch]">{p.d}</p>
                     </div>
                     <div className="md:pt-2">
-                      <div className="rounded-xl border border-line bg-panel p-6">
+                      <Tilt max={6} className="rounded-xl border border-line bg-panel p-6 will-change-transform transition-[box-shadow,border-color] duration-300 hover:border-accent/40 hover:shadow-[0_22px_55px_-42px_rgba(24,22,15,0.55)]">
                         <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-faint">{t('proc.youLeave')}</span>
                         <div className="font-display text-2xl font-semibold mt-2 text-gain">{p.out}</div>
                         <div className="mt-5 h-1.5 rounded-full bg-line overflow-hidden">
                           <motion.div className="h-full bg-gain rounded-full" initial={{ width: 0 }} whileInView={{ width: `${((i + 1) / PROCESS.length) * 100}%` }} viewport={{ once: false }} transition={{ duration: 1, delay: 0.2 }} />
                         </div>
                         <span className="font-mono text-[11px] text-ink-faint mt-2 inline-block">{Math.round(((i + 1) / PROCESS.length) * 100)}% {t('proc.toRevenue')}</span>
-                      </div>
+                      </Tilt>
                     </div>
                   </div>
                 </Reveal>

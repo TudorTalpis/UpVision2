@@ -55,9 +55,9 @@ export default function About() {
           <h2 className="display-md mb-12 max-w-[16ch]">{t('about.valuesT')}</h2>
           <div className="grid sm:grid-cols-2 gap-px bg-white/10 rounded-2xl overflow-hidden">
             {VALUES.map(([title, desc], i) => (
-              <Reveal key={title} delay={i * 0.05} className="bg-night p-8">
+              <Reveal key={title} delay={i * 0.05} className="group bg-night p-8 transition-colors duration-300 hover:bg-night-2">
                 <span className="font-mono text-sm text-accent">0{i + 1}</span>
-                <h3 className="font-display text-2xl font-semibold mt-3 mb-3">{title}</h3>
+                <h3 className="font-display text-2xl font-semibold mt-3 mb-3 transition-colors group-hover:text-accent">{title}</h3>
                 <p className="text-paper/60">{desc}</p>
               </Reveal>
             ))}

@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import GrowthCanvas from '../components/GrowthCanvas.jsx'
 import Journey from '../sections/Journey.jsx'
-import { Reveal, MaskTitle, Magnetic, Stat } from '../components/Primitives.jsx'
+import { Reveal, MaskTitle, Magnetic, Stat, Tilt } from '../components/Primitives.jsx'
 import SplitText from '../components/SplitText.jsx'
 import ScrambleText from '../components/ScrambleText.jsx'
 import { SERVICES, PROJECTS, STATS, FAQ } from '../lib/data'
@@ -73,8 +73,8 @@ export default function Home() {
               [t('manifesto.c2t'), t('manifesto.c2d')],
               [t('manifesto.c3t'), t('manifesto.c3d')],
             ].map(([title, desc]) => (
-              <div key={title} className="border-t border-line-strong pt-5">
-                <h3 className="font-display text-xl font-semibold mb-2">{title}</h3>
+              <div key={title} className="group border-t border-line-strong pt-5 transition-transform duration-300 hover:-translate-y-1">
+                <h3 className="font-display text-xl font-semibold mb-2 transition-colors group-hover:text-accent">{title}</h3>
                 <p className="text-ink-soft text-[15px]">{desc}</p>
               </div>
             ))}
@@ -126,7 +126,8 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-[clamp(20px,3vw,40px)]">
             {PROJECTS.map((p, i) => (
               <Reveal key={p.slug} delay={(i % 2) * 0.08} className={i % 2 ? 'md:mt-16' : ''}>
-                <Link to={`/work/${p.slug}`} className="group block transition-transform duration-500 ease-out hover:-translate-y-1.5" data-cursor="View case">
+                <Link to={`/work/${p.slug}`} className="group block" data-cursor="View case">
+                  <Tilt max={4} className="will-change-transform">
                   <div className="relative aspect-[16/11] rounded-2xl overflow-hidden flex items-end p-7" style={{ background: `linear-gradient(150deg, ${p.accent}, ${p.accent}99)` }}>
                     <div className="absolute inset-0 opacity-30 mix-blend-overlay transition-transform duration-700 ease-out group-hover:scale-110" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")" }} />
                     <span className="relative z-10 block font-display text-white font-semibold text-[clamp(24px,3.4vw,40px)] leading-none max-w-[11ch] group-hover:translate-x-1 transition-transform">{p.result}</span>
@@ -140,6 +141,7 @@ export default function Home() {
                       {p.tags.map((tag) => <span key={tag} className="font-mono text-[11px] px-2.5 py-1 rounded-full border border-line text-ink-soft">{tag}</span>)}
                     </div>
                   </div>
+                  </Tilt>
                 </Link>
               </Reveal>
             ))}
