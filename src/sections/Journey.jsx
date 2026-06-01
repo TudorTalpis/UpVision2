@@ -1,5 +1,6 @@
 import { useRef, useLayoutEffect } from 'react'
 import { gsap, ScrollTrigger, registerGsap, prefersReduced } from '../lib/gsap'
+import { Reveal } from '../components/Primitives.jsx'
 import { useT } from '../lib/i18n'
 import { useContent } from '../lib/i18n/content.js'
 
@@ -63,7 +64,8 @@ export default function Journey() {
           <p className="text-lg text-ink-soft max-w-[54ch]">{t('journey.sub')}</p>
         </div>
 
-        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-[clamp(24px,4vw,64px)]">
+        {/* Desktop: pinned frame + scrubbed crossfade */}
+        <div className="hidden lg:grid lg:grid-cols-[1.1fr_0.9fr] gap-[clamp(24px,4vw,64px)]">
           <div>
           <div className="lg:sticky lg:top-[16vh] rounded-2xl border border-line bg-panel shadow-[0_40px_90px_-50px_rgba(24,22,15,0.5)] overflow-hidden">
             <div className="flex items-center gap-3 px-4 py-3 border-b border-line bg-paper-2/60">
@@ -83,7 +85,7 @@ export default function Journey() {
             </div>
             <div className="px-5 py-4 border-t border-line bg-paper-2/50">
               <div className="flex items-center justify-between mb-2.5">
-                <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-faint">Business value</span>
+                <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-faint">{t('journey.value')}</span>
                 <span className="font-mono text-xs text-gain"><b data-counter="127">0</b>k MRR</span>
               </div>
               <div className="h-1.5 rounded-full bg-line overflow-hidden">
@@ -104,6 +106,22 @@ export default function Journey() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Mobile / small screens: clean vertical sequence, each step reveals on scroll */}
+        <div className="lg:hidden flex flex-col gap-5">
+          {PHASES.map(([label, line], i) => (
+            <Reveal key={label} y={20} className="rounded-2xl border border-line bg-panel overflow-hidden">
+              <div className="flex items-center gap-3 px-4 py-2.5 border-b border-line bg-paper-2/60">
+                <span className="font-mono text-sm text-accent">0{i + 1}</span>
+                <span className="font-display text-base font-semibold">{label}</span>
+              </div>
+              <div className="relative h-[clamp(180px,40vw,240px)] grid place-items-center p-5 text-center">
+                <PhaseVisual index={i} />
+              </div>
+              <p className="text-ink-soft text-[14px] px-4 pb-4">{line}</p>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>

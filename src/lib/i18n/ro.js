@@ -30,6 +30,7 @@ export default {
   'journey.title': 'Privește cum o idee devine un',
   'journey.titleAccent': 'site funcțional.',
   'journey.sub': 'De la o schiță brută la un site live care aduce clienți — asta facem de fapt și așa se transformă în creștere pentru afacere.',
+  'journey.value': 'Valoare de business',
 
   'svcPrev.eyebrow': 'Ce construim',
   'svcPrev.title': 'Dezvoltare web personalizată,|de la cap la coadă.',

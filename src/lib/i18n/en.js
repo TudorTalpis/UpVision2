@@ -30,6 +30,7 @@ export default {
   'journey.title': 'Watch an idea become a',
   'journey.titleAccent': 'working website.',
   'journey.sub': 'From a rough wireframe to a live site winning customers — this is what we actually do, and how it turns into business growth.',
+  'journey.value': 'Business value',
 
   'svcPrev.eyebrow': 'What we build',
   'svcPrev.title': 'Custom web development,|end to end.',
