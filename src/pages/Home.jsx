@@ -4,6 +4,8 @@ import { motion } from 'framer-motion'
 import GrowthCanvas from '../components/GrowthCanvas.jsx'
 import Journey from '../sections/Journey.jsx'
 import { Reveal, MaskTitle, Magnetic, Stat } from '../components/Primitives.jsx'
+import SplitText from '../components/SplitText.jsx'
+import ScrambleText from '../components/ScrambleText.jsx'
 import { SERVICES, PROJECTS, STATS, FAQ } from '../lib/data'
 import { setMeta, setJsonLd, organizationLd, localBusinessLd, faqLd } from '../lib/seo'
 import { useLocale } from '../lib/i18n'
@@ -32,28 +34,19 @@ export default function Home() {
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(70% 50% at 50% 18%, transparent 40%, var(--color-paper) 100%)' }} />
 
         <div className="shell relative z-10">
-          <motion.div className="eyebrow mb-7" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.7 }}>
-            Custom web development studio · Moldova
+          <motion.div className="mb-7" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+            <ScrambleText as="span" className="eyebrow" text="Custom web development studio · Moldova" start="top 99%" />
           </motion.div>
 
           <h1 className="display-xl font-semibold max-w-[15ch]">
-            {HERO_LINES.map((l, i) => (
-              <span key={i} className="block overflow-hidden">
-                <motion.span className="block" initial={{ y: '110%' }} animate={{ y: '0%' }} transition={{ delay: 0.2 + i * 0.09, duration: 1, ease: [0.16, 1, 0.3, 1] }}>
-                  {l}
-                </motion.span>
-              </span>
-            ))}
-            <span className="block overflow-hidden">
-              <motion.span className="block serif-italic text-accent" initial={{ y: '110%' }} animate={{ y: '0%' }} transition={{ delay: 0.5, duration: 1, ease: [0.16, 1, 0.3, 1] }}>
-                grow.
-              </motion.span>
-            </span>
+            <SplitText as="span" className="block" by="word" play="load" delay={0.12} text={HERO_LINES.join(' ')} />
+            <SplitText as="span" className="block serif-italic text-accent" by="word" play="load" delay={0.78} text="grow." />
           </h1>
 
-          <motion.p className="mt-8 text-[clamp(17px,1.6vw,21px)] text-ink-soft max-w-[52ch]" initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.8 }}>
-            UpVision designs and builds fast, custom websites and web apps for businesses in Moldova and beyond — engineered to win trust, generate leads and pay for themselves.
-          </motion.p>
+          <p className="mt-8 text-[clamp(17px,1.6vw,21px)] text-ink-soft max-w-[52ch]">
+            <SplitText as="span" by="word" blur={false} y="0.4em" stagger={0.012} play="load" delay={0.9}
+              text="UpVision designs and builds fast, custom websites and web apps for businesses in Moldova and beyond — engineered to win trust, generate leads and pay for themselves." />
+          </p>
 
           <motion.div className="mt-10 flex flex-wrap gap-3.5" initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.82, duration: 0.8 }}>
             <Magnetic to="/contact" className="btn btn--accent" cursor="Book a call"><span className="btn__dot" /> Start your project</Magnetic>
@@ -71,7 +64,7 @@ export default function Home() {
       {/* ---------- MANIFESTO ---------- */}
       <section className="relative py-[clamp(70px,11vh,150px)] border-y border-line bg-paper-2/40">
         <div className="shell">
-          <Reveal className="eyebrow mb-8">The reframe</Reveal>
+          <div className="eyebrow mb-8"><ScrambleText as="span" text="The reframe" /></div>
           <MaskTitle
             className="display-md font-medium max-w-[20ch] [&_em]:not-italic"
             lines={['A website is not a cost', 'on your balance sheet.', "It's your hardest-working", 'business asset.']}
@@ -100,7 +93,7 @@ export default function Home() {
         <div className="shell relative z-10">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
             <div>
-              <span className="eyebrow mb-6">What we build</span>
+              <span className="eyebrow mb-6"><ScrambleText as="span" text="What we build" /></span>
               <MaskTitle className="display-md mt-5 max-w-[16ch]" lines={['Custom web development,', 'end to end.']} />
             </div>
             <Link to="/services" className="btn btn--ghost !text-paper !border-white/25 hover:!border-white self-start" data-cursor="All services">All services →</Link>
@@ -108,8 +101,8 @@ export default function Home() {
 
           <div className="border-t border-white/12">
             {SERVICES.map((s, i) => (
-              <Reveal key={s.slug} delay={i * 0.04}>
-                <Link to="/services" className="group grid grid-cols-[40px_1fr_auto] md:grid-cols-[64px_1fr_1fr_auto] items-center gap-4 py-6 border-b border-white/12 transition-colors hover:bg-white/[0.03]" data-cursor="Explore">
+              <Reveal key={s.slug} delay={i * 0.06} x={-28}>
+                <Link to="/services" className="group grid grid-cols-[40px_1fr_auto] md:grid-cols-[64px_1fr_1fr_auto] items-center gap-4 py-6 border-b border-white/12 transition-colors hover:bg-white/[0.03] hover:pl-2" data-cursor="Explore">
                   <span className="font-mono text-sm text-paper/40">{s.n}</span>
                   <h3 className="font-display text-[clamp(20px,2.6vw,30px)] font-medium group-hover:text-accent transition-colors">{s.title}</h3>
                   <p className="hidden md:block text-paper/55 text-[15px]">{s.short}</p>
@@ -126,7 +119,7 @@ export default function Home() {
         <div className="shell">
           <div className="flex items-end justify-between gap-6 mb-12">
             <div>
-              <span className="eyebrow mb-6">Proof</span>
+              <span className="eyebrow mb-6"><ScrambleText as="span" text="Proof" /></span>
               <MaskTitle className="display-md mt-5 max-w-[14ch]" lines={['Results, not', 'just visuals.']} />
             </div>
             <Link to="/work" className="btn btn--ghost self-start hidden sm:inline-flex" data-cursor="All work">All work →</Link>
@@ -167,7 +160,7 @@ export default function Home() {
       <section className="relative py-[clamp(70px,11vh,150px)]">
         <div className="ledger-grid" />
         <div className="shell relative z-10 text-center max-w-3xl mx-auto">
-          <span className="eyebrow justify-center mb-7" style={{ display: 'inline-flex' }}>Investment, not expense</span>
+          <span className="eyebrow justify-center mb-7" style={{ display: 'inline-flex' }}><ScrambleText as="span" text="Investment, not expense" /></span>
           <MaskTitle className="display-md mb-6" lines={['Priced around the', 'return, not the hours.']} />
           <Reveal delay={0.2}>
             <p className="text-lg text-ink-soft mb-10">

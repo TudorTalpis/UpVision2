@@ -7,7 +7,7 @@ import { gsap, registerGsap, prefersReduced } from '../lib/gsap'
 const REVERSIBLE = 'play reverse play reverse'
 
 /* Scroll reveal — rises in on the way down, reverses on the way up, every pass. */
-export function Reveal({ children, delay = 0, y = 28, className = '', as = 'div' }) {
+export function Reveal({ children, delay = 0, y = 28, x = 0, className = '', as = 'div' }) {
   const ref = useRef(null)
   const Tag = as
   useLayoutEffect(() => {
@@ -17,14 +17,14 @@ export function Reveal({ children, delay = 0, y = 28, className = '', as = 'div'
     registerGsap()
     const ctx = gsap.context(() => {
       gsap.fromTo(el,
-        { autoAlpha: 0, y },
+        { autoAlpha: 0, y, x },
         {
-          autoAlpha: 1, y: 0, duration: 0.8, delay, ease: 'expo.out',
+          autoAlpha: 1, y: 0, x: 0, duration: 0.8, delay, ease: 'expo.out',
           scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: REVERSIBLE },
         })
     }, ref)
     return () => ctx.revert()
-  }, [delay, y])
+  }, [delay, y, x])
   return <Tag ref={ref} className={className}>{children}</Tag>
 }
 

@@ -1,20 +1,23 @@
-import { MaskTitle } from './Primitives.jsx'
-import { motion } from 'framer-motion'
+import SplitText from './SplitText.jsx'
+import ScrambleText from './ScrambleText.jsx'
 
 export default function PageHero({ eyebrow, titleLines, intro, children }) {
   return (
     <section className="relative pt-40 pb-[clamp(48px,8vh,96px)] overflow-hidden">
       <div className="ledger-grid" />
       <div className="shell relative z-10">
-        <motion.div className="eyebrow mb-7" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-          {eyebrow}
-        </motion.div>
-        <MaskTitle as="h1" className="display-lg max-w-[18ch]" lines={titleLines} />
+        <div className="eyebrow mb-7">
+          <ScrambleText as="span" text={eyebrow} start="top 99%" />
+        </div>
+        <h1 className="display-lg max-w-[18ch]">
+          {titleLines.map((l, i) => (
+            <SplitText key={i} as="span" className="block" by="word" play="load" delay={0.1 + i * 0.12} text={l} />
+          ))}
+        </h1>
         {intro && (
-          <motion.p className="mt-8 text-[clamp(17px,1.5vw,20px)] text-ink-soft max-w-[56ch]"
-            initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.7 }}>
-            {intro}
-          </motion.p>
+          <p className="mt-8 text-[clamp(17px,1.5vw,20px)] text-ink-soft max-w-[56ch]">
+            <SplitText as="span" by="word" blur={false} y="0.4em" stagger={0.012} play="load" delay={0.45} text={intro} />
+          </p>
         )}
         {children}
       </div>
