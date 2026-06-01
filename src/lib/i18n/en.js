@@ -140,4 +140,18 @@ export default {
   // 404
   'nf.body': 'This page didn’t make it past launch. Let’s get you back on track.',
   'nf.btn': 'Back to home',
+
+  // Case study
+  'cs.allWork': '← All work',
+  'cs.engagement': 'The engagement',
+  'cs.fromTo': 'From {a} to {b}.',
+  'cs.challengeT': 'The challenge',
+  'cs.challengeD': '{name} had real demand but a digital presence that undersold it — confusing, slow, and disconnected from how the business actually made money.',
+  'cs.approachT': 'Our approach',
+  'cs.approachD': 'We designed and built the site as one team — structure and UX first, then a fast, accessible React build — instrumented so we could prove the lift.',
+  'cs.outcomeT': 'The outcome',
+  'cs.outcomeD': '{result}. More than a redesign — a measurable shift in how the business acquires and converts customers.',
+  'cs.next': 'Next case',
+  'cs.notFound': 'Case not found.',
+  'cs.back': 'Back to work',
 }

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import PageHero from '../components/PageHero.jsx'
-import { Reveal } from '../components/Primitives.jsx'
+import { Reveal, Tilt } from '../components/Primitives.jsx'
 import { setMeta } from '../lib/seo'
 import { isTouch } from '../lib/hooks'
 import { useLocale, useT, LocaleLink as Link } from '../lib/i18n'
@@ -70,14 +70,16 @@ export default function Work() {
           <div className="md:hidden grid gap-6">
             {PROJECTS.map((p, i) => (
               <Reveal key={p.slug} delay={i * 0.05}>
-                <Link to={`/work/${p.slug}`} className="block">
-                  <div className="relative aspect-[16/11] rounded-2xl overflow-hidden flex items-end p-6" style={{ background: `linear-gradient(150deg, ${p.accent}, ${p.accent}99)` }}>
-                    <span className="font-display text-white font-semibold text-3xl">{p.result}</span>
-                  </div>
-                  <div className="flex items-center justify-between mt-4">
-                    <div><h3 className="font-display text-xl font-semibold">{p.name}</h3><span className="font-mono text-xs text-ink-faint">{p.cat}</span></div>
-                    <span className="text-xl text-ink-faint">↗</span>
-                  </div>
+                <Link to={`/work/${p.slug}`} className="group block">
+                  <Tilt max={4}>
+                    <div className="relative aspect-[16/11] rounded-2xl overflow-hidden flex items-end p-6" style={{ background: `linear-gradient(150deg, ${p.accent}, ${p.accent}99)` }}>
+                      <span className="font-display text-white font-semibold text-3xl">{p.result}</span>
+                    </div>
+                    <div className="flex items-center justify-between mt-4">
+                      <div><h3 className="font-display text-xl font-semibold">{p.name}</h3><span className="font-mono text-xs text-ink-faint">{p.cat}</span></div>
+                      <span className="text-xl text-ink-faint transition-transform group-hover:translate-x-1">↗</span>
+                    </div>
+                  </Tilt>
                 </Link>
               </Reveal>
             ))}

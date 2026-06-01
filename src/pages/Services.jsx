@@ -94,11 +94,11 @@ export default function Services() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 rounded-2xl overflow-hidden">
             {PROCESS.map((p, i) => (
-              <Reveal key={p.n} delay={i * 0.05} className="bg-night p-7">
+              <Reveal key={p.n} delay={i * 0.05} className="group bg-night p-7 transition-colors duration-300 hover:bg-night-2">
                 <span className="font-mono text-sm text-accent">{p.n}</span>
-                <h3 className="font-display text-2xl font-semibold mt-3 mb-2">{p.title}</h3>
+                <h3 className="font-display text-2xl font-semibold mt-3 mb-2 transition-colors group-hover:text-accent">{p.title}</h3>
                 <p className="text-paper/55 text-[15px]">{p.d}</p>
-                <span className="inline-block mt-4 font-mono text-[12px] text-gain">→ {p.out}</span>
+                <span className="inline-block mt-4 font-mono text-[12px] text-gain transition-transform duration-300 group-hover:translate-x-1">→ {p.out}</span>
               </Reveal>
             ))}
           </div>

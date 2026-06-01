@@ -140,4 +140,18 @@ export default {
   // 404
   'nf.body': 'Pagina asta nu a trecut de lansare. Hai să te readucem pe drumul cel bun.',
   'nf.btn': 'Înapoi acasă',
+
+  // Case study
+  'cs.allWork': '← Toate proiectele',
+  'cs.engagement': 'Colaborarea',
+  'cs.fromTo': 'De la {a} la {b}.',
+  'cs.challengeT': 'Provocarea',
+  'cs.challengeD': '{name} avea cerere reală, dar o prezență digitală care o subevalua — confuză, lentă și deconectată de modul în care afacerea chiar făcea bani.',
+  'cs.approachT': 'Abordarea noastră',
+  'cs.approachD': 'Am proiectat și construit site-ul ca o singură echipă — întâi structura și UX, apoi un build React rapid și accesibil — măsurat ca să putem dovedi creșterea.',
+  'cs.outcomeT': 'Rezultatul',
+  'cs.outcomeD': '{result}. Mai mult decât un redesign — o schimbare măsurabilă în modul în care afacerea atrage și convertește clienți.',
+  'cs.next': 'Cazul următor',
+  'cs.notFound': 'Caz negăsit.',
+  'cs.back': 'Înapoi la proiecte',
 }

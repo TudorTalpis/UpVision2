@@ -1,13 +1,17 @@
 import { useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Reveal, MaskTitle, Magnetic } from '../components/Primitives.jsx'
-import { PROJECTS } from '../lib/data'
+import { Reveal, MaskTitle } from '../components/Primitives.jsx'
 import { setMeta, setJsonLd, breadcrumbLd } from '../lib/seo'
-import { useLocale } from '../lib/i18n'
+import { useLocale, useT, LocaleLink as Link } from '../lib/i18n'
+import { useContent } from '../lib/i18n/content.js'
+
+const fill = (s, vars) => s.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? '')
 
 export default function CaseStudy() {
   const { slug } = useParams()
+  const t = useT()
+  const { PROJECTS } = useContent()
   const idx = PROJECTS.findIndex((p) => p.slug === slug)
   const p = PROJECTS[idx]
   const next = PROJECTS[(idx + 1) % PROJECTS.length]
@@ -35,7 +39,7 @@ export default function CaseStudy() {
   }, [slug, locale])
 
   if (!p) return (
-    <div className="shell pt-48 pb-32"><h1 className="display-md">Case not found.</h1><Link to="/work" className="btn btn--accent mt-8">Back to work</Link></div>
+    <div className="shell pt-48 pb-32"><h1 className="display-md">{t('cs.notFound')}</h1><Link to="/work" className="btn btn--accent mt-8">{t('cs.back')}</Link></div>
   )
 
   const metrics = [p.metricA, p.metricB, p.metricC]
@@ -45,7 +49,7 @@ export default function CaseStudy() {
       <section className="relative pt-40 pb-[clamp(40px,6vh,80px)] overflow-hidden">
         <div className="ledger-grid" />
         <div className="shell relative z-10">
-          <Link to="/work" className="font-mono text-[13px] text-ink-faint hover:text-accent transition-colors" data-cursor="Back">← All work</Link>
+          <Link to="/work" className="font-mono text-[13px] text-ink-faint hover:text-accent transition-colors" data-cursor="Back">{t('cs.allWork')}</Link>
           <div className="flex flex-wrap items-center gap-3 mt-8 mb-6">
             <span className="font-mono text-[13px] text-ink-faint">{p.cat}</span>
             <span className="w-1 h-1 rounded-full bg-ink-faint" />
@@ -77,8 +81,8 @@ export default function CaseStudy() {
       <section className="relative py-[clamp(50px,8vh,100px)] bg-paper-2/40 border-y border-line">
         <div className="shell grid grid-cols-1 sm:grid-cols-3 gap-10">
           {metrics.map(([v, l], i) => (
-            <Reveal key={i} delay={i * 0.1} className="text-center sm:text-left">
-              <div className="font-display font-semibold text-gain leading-none" style={{ fontSize: 'clamp(44px,7vw,80px)', letterSpacing: '-0.03em' }}>{v}</div>
+            <Reveal key={i} delay={i * 0.1} className="group text-center sm:text-left">
+              <div className="font-display font-semibold text-gain leading-none origin-left transition-transform duration-300 group-hover:scale-105" style={{ fontSize: 'clamp(44px,7vw,80px)', letterSpacing: '-0.03em' }}>{v}</div>
               <div className="text-ink-soft mt-3">{l}</div>
             </Reveal>
           ))}
@@ -89,22 +93,22 @@ export default function CaseStudy() {
       <section className="relative py-[clamp(70px,11vh,150px)]">
         <div className="shell grid lg:grid-cols-[0.4fr_0.6fr] gap-[clamp(32px,5vw,90px)]">
           <div className="lg:sticky lg:top-32 self-start">
-            <span className="eyebrow mb-6">The engagement</span>
-            <h2 className="display-md mt-5">From {p.tags[0].toLowerCase()} to {p.tags[p.tags.length - 1].toLowerCase()}.</h2>
+            <span className="eyebrow mb-6">{t('cs.engagement')}</span>
+            <h2 className="display-md mt-5">{fill(t('cs.fromTo'), { a: p.tags[0].toLowerCase(), b: p.tags[p.tags.length - 1].toLowerCase() })}</h2>
             <div className="flex flex-wrap gap-2 mt-7">
               {p.tags.map((t) => <span key={t} className="font-mono text-[12px] px-3 py-1.5 rounded-full border border-line-strong text-ink-soft">{t}</span>)}
             </div>
           </div>
           <div className="space-y-12">
             {[
-              ['The challenge', `${p.name} had real demand but a digital presence that undersold it — confusing, slow, and disconnected from how the business actually made money.`],
-              ['Our approach', 'We designed and built the site as one team — structure and UX first, then a fast, accessible React build — instrumented so we could prove the lift.'],
-              ['The outcome', `${p.result}. More than a redesign — a measurable shift in how the business acquires and converts customers.`],
-            ].map(([t, d], i) => (
-              <Reveal key={t} delay={i * 0.05} className="border-t border-line pt-7">
+              [t('cs.challengeT'), fill(t('cs.challengeD'), { name: p.name })],
+              [t('cs.approachT'), t('cs.approachD')],
+              [t('cs.outcomeT'), fill(t('cs.outcomeD'), { result: p.result })],
+            ].map(([title, desc], i) => (
+              <Reveal key={title} delay={i * 0.05} className="group border-t border-line pt-7 transition-transform duration-300 hover:-translate-y-1">
                 <span className="font-mono text-sm text-accent">0{i + 1}</span>
-                <h3 className="font-display text-[clamp(24px,3vw,36px)] font-semibold mt-3 mb-3">{t}</h3>
-                <p className="text-lg text-ink-soft max-w-[56ch]">{d}</p>
+                <h3 className="font-display text-[clamp(24px,3vw,36px)] font-semibold mt-3 mb-3 transition-colors group-hover:text-accent">{title}</h3>
+                <p className="text-lg text-ink-soft max-w-[56ch]">{desc}</p>
               </Reveal>
             ))}
           </div>
@@ -116,7 +120,7 @@ export default function CaseStudy() {
         <div className="ledger-grid" style={{ opacity: 0.16 }} />
         <Link to={`/work/${next.slug}`} className="shell relative z-10 flex items-center justify-between group" data-cursor="Next case">
           <div>
-            <span className="font-mono text-xs uppercase tracking-[0.16em] text-paper/50">Next case</span>
+            <span className="font-mono text-xs uppercase tracking-[0.16em] text-paper/50">{t('cs.next')}</span>
             <h2 className="display-md mt-3 group-hover:text-accent transition-colors">{next.name}</h2>
             <span className="text-gain font-semibold">{next.result}</span>
           </div>
