@@ -1,42 +1,60 @@
+import { useRef, useLayoutEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useMagnetic, useCountUp } from '../lib/hooks'
+import { gsap, registerGsap, prefersReduced } from '../lib/gsap'
 
-/* Scroll reveal — words/blocks rise into place once. */
+const REVERSIBLE = 'play reverse play reverse'
+
+/* Scroll reveal — rises in on the way down, reverses on the way up, every pass. */
 export function Reveal({ children, delay = 0, y = 28, className = '', as = 'div' }) {
-  const M = motion[as] || motion.div
-  return (
-    <M
-      className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay }}
-    >
-      {children}
-    </M>
-  )
+  const ref = useRef(null)
+  const Tag = as
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el) return
+    if (prefersReduced()) { gsap.set(el, { clearProps: 'all' }); return }
+    registerGsap()
+    const ctx = gsap.context(() => {
+      gsap.fromTo(el,
+        { autoAlpha: 0, y },
+        {
+          autoAlpha: 1, y: 0, duration: 0.8, delay, ease: 'expo.out',
+          scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: REVERSIBLE },
+        })
+    }, ref)
+    return () => ctx.revert()
+  }, [delay, y])
+  return <Tag ref={ref} className={className}>{children}</Tag>
 }
 
-/* Headline with masked line-by-line rise. */
-export function MaskTitle({ lines, className = '' }) {
+/* Headline with masked line-by-line rise — reversible. */
+export function MaskTitle({ lines, className = '', as: Tag = 'h2' }) {
+  const ref = useRef(null)
+  useLayoutEffect(() => {
+    const root = ref.current
+    if (!root) return
+    const inners = root.querySelectorAll('[data-line]')
+    if (prefersReduced()) { gsap.set(inners, { yPercent: 0 }); return }
+    registerGsap()
+    const ctx = gsap.context(() => {
+      gsap.fromTo(inners,
+        { yPercent: 110 },
+        {
+          yPercent: 0, duration: 0.9, ease: 'expo.out', stagger: 0.08,
+          scrollTrigger: { trigger: root, start: 'top 80%', toggleActions: REVERSIBLE },
+        })
+    }, ref)
+    return () => ctx.revert()
+  }, [lines])
   return (
-    <h2 className={className}>
+    <Tag ref={ref} className={className}>
       {lines.map((l, i) => (
         <span key={i} style={{ display: 'block', overflow: 'hidden', paddingBottom: '0.05em' }}>
-          <motion.span
-            style={{ display: 'block' }}
-            initial={{ y: '110%' }}
-            whileInView={{ y: '0%' }}
-            viewport={{ once: true, amount: 0.6 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: i * 0.08 }}
-          >
-            {l}
-          </motion.span>
+          <span data-line style={{ display: 'block' }}>{l}</span>
         </span>
       ))}
-    </h2>
+    </Tag>
   )
 }
 
@@ -52,7 +70,7 @@ export function Magnetic({ children, className = '', to, href, cursor, onClick, 
 /* Count-up stat. */
 export function Stat({ v, suffix = '', label, dec = 0, big = false }) {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, amount: 0.6 })
+  const inView = useInView(ref, { once: false, amount: 0.6 })
   const val = useCountUp(v, { start: inView, dec })
   return (
     <div ref={ref}>

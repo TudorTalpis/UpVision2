@@ -58,11 +58,11 @@ export function useTypewriter(lines, { speed = 18, start = false } = {}) {
   return { out, done }
 }
 
-/* Count-up when `start` is true. */
+/* Count-up when `start` is true. Resets to 0 when start flips false (re-counts every pass). */
 export function useCountUp(target, { start = false, dur = 1500, dec = 0 } = {}) {
   const [val, setVal] = useState(0)
   useEffect(() => {
-    if (!start) return
+    if (!start) { setVal(0); return }
     let raf, t0
     const step = (t) => {
       if (!t0) t0 = t
