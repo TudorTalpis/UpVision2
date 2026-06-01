@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { motion, useInView } from 'framer-motion'
 import PageHero from '../components/PageHero.jsx'
 import { Reveal, Magnetic } from '../components/Primitives.jsx'
 import { setMeta } from '../lib/seo'
 import { useLocale, useT } from '../lib/i18n'
 import { useContent } from '../lib/i18n/content.js'
+import { useTilt, useCountUp } from '../lib/hooks'
 
 export default function Pricing() {
   const { locale } = useLocale()
@@ -30,11 +31,11 @@ export default function Pricing() {
           <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
             {PIPE.map(([title, desc], i) => (
               <Reveal key={title} delay={i * 0.08}>
-                <div className="relative h-full rounded-xl border border-line p-5 bg-panel">
+                <div className="group relative h-full rounded-xl border border-line p-5 bg-panel transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_20px_50px_-35px_rgba(24,22,15,0.6)]">
                   <span className="font-mono text-[12px] text-accent">{String(i + 1).padStart(2, '0')}</span>
                   <h3 className={`font-display text-xl font-semibold mt-2 mb-2 ${i === 4 ? 'text-gain' : ''}`}>{title}</h3>
                   <p className="text-[14px] text-ink-soft">{desc}</p>
-                  {i < PIPE.length - 1 && <span className="hidden md:block absolute -right-2.5 top-1/2 -translate-y-1/2 text-accent text-lg z-10">→</span>}
+                  {i < PIPE.length - 1 && <span className="hidden md:block absolute -right-2.5 top-1/2 -translate-y-1/2 text-accent text-lg z-10 transition-transform duration-300 group-hover:translate-x-1">→</span>}
                 </div>
               </Reveal>
             ))}
@@ -49,29 +50,8 @@ export default function Pricing() {
         <div className="shell">
           <div className="grid lg:grid-cols-3 gap-5">
             {PRICING.map((tier, i) => (
-              <Reveal key={tier.name} delay={i * 0.08}>
-                <div className={`relative h-full rounded-2xl p-8 border flex flex-col ${tier.featured ? 'night border-transparent' : 'bg-panel border-line'}`}>
-                  {tier.featured && <span className="absolute top-6 right-6 font-mono text-[11px] uppercase tracking-widest px-3 py-1 rounded-full bg-accent text-white">{t('price.most')}</span>}
-                  <h3 className="font-display text-3xl font-semibold">{tier.name}</h3>
-                  <p className={`text-[15px] mt-2 ${tier.featured ? 'text-paper/60' : 'text-ink-soft'}`}>{tier.tag}</p>
-                  <div className="mt-7 mb-1 flex items-baseline gap-1">
-                    <span className="font-mono text-sm opacity-60">{t('price.from')}</span>
-                    <span className="font-display text-5xl font-semibold">{tier.invest === 'Custom' ? 'Custom' : `$${tier.invest}`}</span>
-                  </div>
-                  <span className={`font-mono text-[12px] ${tier.featured ? 'text-paper/50' : 'text-ink-faint'}`}>{tier.range} · {tier.horizon}</span>
-                  <div className={`my-6 h-px ${tier.featured ? 'bg-white/15' : 'bg-line'}`} />
-                  <ul className="space-y-3 flex-1">
-                    {tier.points.map((p) => (
-                      <li key={p} className="flex items-start gap-3 text-[15px]"><span className="text-gain mt-0.5">✓</span><span className={tier.featured ? 'text-paper/85' : 'text-ink'}>{p}</span></li>
-                    ))}
-                  </ul>
-                  <div className={`mt-6 mb-7 text-[14px] rounded-lg p-4 ${tier.featured ? 'bg-white/5 text-paper/80' : 'bg-gain-soft/60 text-ink'}`}>
-                    <span className="font-mono text-[11px] uppercase tracking-widest text-gain block mb-1">{t('price.return')}</span>{tier.returns}
-                  </div>
-                  <Magnetic to="/contact" className={`btn ${tier.featured ? 'btn--accent' : '!bg-ink !text-paper'} w-full justify-center`} cursor="Start" strength={0.2}>
-                    <span className="btn__dot" /> {tier.invest === 'Custom' ? t('price.talk') : `${t('price.start')} ${tier.name}`}
-                  </Magnetic>
-                </div>
+              <Reveal key={tier.name} delay={i * 0.08} className="h-full">
+                <TierCard tier={tier} t={t} />
               </Reveal>
             ))}
           </div>
@@ -179,5 +159,59 @@ function Out({ label, value }) {
       <div className="font-display text-4xl font-semibold leading-none">{value}</div>
       <div className="text-[13px] text-ink-faint mt-2">{label}</div>
     </div>
+  )
+}
+
+/* Pricing tier — tilts toward the pointer (desktop) + animated price. */
+function TierCard({ tier, t }) {
+  const ref = useTilt(5)
+  return (
+    <div
+      ref={ref}
+      className={`group relative h-full rounded-2xl p-8 border flex flex-col will-change-transform transition-[box-shadow,border-color] duration-300 ${
+        tier.featured
+          ? 'night border-transparent shadow-[0_30px_80px_-40px_rgba(242,75,30,0.5)]'
+          : 'bg-panel border-line hover:border-ink/25 hover:shadow-[0_30px_70px_-45px_rgba(24,22,15,0.5)]'
+      }`}
+    >
+      {tier.featured && <span className="absolute top-6 right-6 font-mono text-[11px] uppercase tracking-widest px-3 py-1 rounded-full bg-accent text-white">{t('price.most')}</span>}
+      <h3 className="font-display text-3xl font-semibold">{tier.name}</h3>
+      <p className={`text-[15px] mt-2 ${tier.featured ? 'text-paper/60' : 'text-ink-soft'}`}>{tier.tag}</p>
+      <div className="mt-7 mb-1 flex items-baseline gap-1">
+        <span className="font-mono text-sm opacity-60">{t('price.from')}</span>
+        <PriceCount invest={tier.invest} />
+      </div>
+      <span className={`font-mono text-[12px] ${tier.featured ? 'text-paper/50' : 'text-ink-faint'}`}>{tier.range} · {tier.horizon}</span>
+      <div className={`my-6 h-px ${tier.featured ? 'bg-white/15' : 'bg-line'}`} />
+      <ul className="space-y-3 flex-1">
+        {tier.points.map((p) => (
+          <li key={p} className="flex items-start gap-3 text-[15px]">
+            <span className="text-gain mt-0.5 transition-transform duration-300 group-hover:scale-125">✓</span>
+            <span className={tier.featured ? 'text-paper/85' : 'text-ink'}>{p}</span>
+          </li>
+        ))}
+      </ul>
+      <div className={`mt-6 mb-7 text-[14px] rounded-lg p-4 ${tier.featured ? 'bg-white/5 text-paper/80' : 'bg-gain-soft/60 text-ink'}`}>
+        <span className="font-mono text-[11px] uppercase tracking-widest text-gain block mb-1">{t('price.return')}</span>{tier.returns}
+      </div>
+      <Magnetic to="/contact" className={`btn ${tier.featured ? 'btn--accent' : '!bg-ink !text-paper'} w-full justify-center`} cursor="Start" strength={0.2}>
+        <span className="btn__dot" /> {tier.invest === 'Custom' ? t('price.talk') : `${t('price.start')} ${tier.name}`}
+      </Magnetic>
+    </div>
+  )
+}
+
+/* Counts the price up from 0 when scrolled into view. */
+function PriceCount({ invest }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: false, amount: 0.6 })
+  const isCustom = invest === 'Custom'
+  const num = parseFloat(invest) || 0
+  const dec = String(invest).includes('.') ? 1 : 0
+  const val = useCountUp(num, { start: inView && !isCustom, dec })
+  return (
+    <span ref={ref} className="font-display text-5xl font-semibold tabular-nums">
+      {isCustom ? 'Custom' : `$${val}k`}
+    </span>
   )
 }

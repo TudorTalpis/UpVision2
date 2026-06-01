@@ -7,6 +7,35 @@ export const isReduced = () =>
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+/* 3D tilt-toward-pointer — desktop / fine-pointer only, transform-only. */
+export function useTilt(max = 6) {
+  const ref = useRef(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el || isTouch() || isReduced()) return
+    let raf
+    const move = (e) => {
+      const r = el.getBoundingClientRect()
+      const px = (e.clientX - r.left) / r.width - 0.5
+      const py = (e.clientY - r.top) / r.height - 0.5
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        el.style.transform =
+          `perspective(900px) rotateX(${(-py * max).toFixed(2)}deg) rotateY(${(px * max).toFixed(2)}deg) translateY(-6px)`
+      })
+    }
+    const reset = () => { cancelAnimationFrame(raf); el.style.transform = '' }
+    el.addEventListener('mousemove', move)
+    el.addEventListener('mouseleave', reset)
+    return () => {
+      el.removeEventListener('mousemove', move)
+      el.removeEventListener('mouseleave', reset)
+      cancelAnimationFrame(raf)
+    }
+  }, [max])
+  return ref
+}
+
 /* Magnetic hover — desktop / fine-pointer only. */
 export function useMagnetic(strength = 0.35) {
   const ref = useRef(null)
