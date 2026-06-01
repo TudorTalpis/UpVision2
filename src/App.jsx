@@ -6,6 +6,7 @@ import Cursor from './components/Cursor.jsx'
 import Nav from './components/Nav.jsx'
 import Footer from './components/Footer.jsx'
 import { isReduced } from './lib/hooks'
+import { connectLenis, ScrollTrigger, registerGsap } from './lib/gsap'
 
 export default function App() {
   const { pathname } = useLocation()
@@ -13,22 +14,24 @@ export default function App() {
   const { scrollYProgress } = useScroll()
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 })
 
-  /* smooth scroll */
   useEffect(() => {
+    registerGsap()
     if (isReduced()) return
     const lenis = new Lenis({ duration: 1.1, smoothWheel: true, lerp: 0.1 })
     lenisRef.current = lenis
     window.__lenis = lenis
+    const disconnect = connectLenis(lenis)
     let raf
     const loop = (t) => { lenis.raf(t); raf = requestAnimationFrame(loop) }
     raf = requestAnimationFrame(loop)
-    return () => { cancelAnimationFrame(raf); lenis.destroy(); window.__lenis = null }
+    return () => { cancelAnimationFrame(raf); disconnect(); lenis.destroy(); window.__lenis = null }
   }, [])
 
-  /* scroll to top on route change */
   useEffect(() => {
     if (lenisRef.current) lenisRef.current.scrollTo(0, { immediate: true })
     else window.scrollTo(0, 0)
+    const id = requestAnimationFrame(() => ScrollTrigger.refresh())
+    return () => cancelAnimationFrame(id)
   }, [pathname])
 
   return (
