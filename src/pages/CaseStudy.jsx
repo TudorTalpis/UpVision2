@@ -3,13 +3,15 @@ import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Reveal, MaskTitle, Magnetic } from '../components/Primitives.jsx'
 import { PROJECTS, STAGES } from '../lib/data'
-import { setMeta, setJsonLd } from '../lib/seo'
+import { setMeta, setJsonLd, breadcrumbLd } from '../lib/seo'
+import { useLocale } from '../lib/i18n'
 
 export default function CaseStudy() {
   const { slug } = useParams()
   const idx = PROJECTS.findIndex((p) => p.slug === slug)
   const p = PROJECTS[idx]
   const next = PROJECTS[(idx + 1) % PROJECTS.length]
+  const { locale } = useLocale()
 
   useEffect(() => {
     if (!p) return
@@ -18,13 +20,19 @@ export default function CaseStudy() {
       description: `${p.summary} ${p.result}.`,
       path: `/work/${p.slug}`,
       type: 'article',
+      locale,
     })
     setJsonLd('ld-case', {
       '@context': 'https://schema.org', '@type': 'Article',
       headline: `${p.name}: ${p.result}`, about: p.cat,
       publisher: { '@type': 'Organization', name: 'UpVision' },
     })
-  }, [slug])
+    setJsonLd('ld-breadcrumb', breadcrumbLd([
+      { name: 'Home', path: '/' },
+      { name: 'Work', path: '/work' },
+      { name: p.name, path: '/work/' + p.slug },
+    ]))
+  }, [slug, locale])
 
   if (!p) return (
     <div className="shell pt-48 pb-32"><h1 className="display-md">Case not found.</h1><Link to="/work" className="btn btn--accent mt-8">Back to work</Link></div>
@@ -43,7 +51,7 @@ export default function CaseStudy() {
             <span className="w-1 h-1 rounded-full bg-ink-faint" />
             <span className="font-mono text-[13px] text-ink-faint">{p.year}</span>
           </div>
-          <MaskTitle className="display-lg max-w-[16ch]" lines={[p.name, p.result]} />
+          <MaskTitle as="h1" className="display-lg max-w-[16ch]" lines={[p.name, p.result]} />
           <Reveal delay={0.4}><p className="mt-8 text-[clamp(17px,1.6vw,21px)] text-ink-soft max-w-[54ch]">{p.summary}</p></Reveal>
         </div>
       </section>
@@ -56,7 +64,7 @@ export default function CaseStudy() {
               <div className="absolute inset-0 opacity-25 mix-blend-overlay" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")" }} />
               {/* floating device */}
               <motion.div className="absolute left-1/2 bottom-0 -translate-x-1/2 w-[62%] aspect-[16/10] bg-panel rounded-t-xl border border-black/10 shadow-2xl overflow-hidden"
-                initial={{ y: 60, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}>
+                initial={{ y: 60, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: false }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}>
                 <div className="h-7 bg-paper-2 flex items-center gap-1.5 px-3"><i className="w-2 h-2 rounded-full bg-line-strong" /><i className="w-2 h-2 rounded-full bg-line-strong" /><i className="w-2 h-2 rounded-full bg-line-strong" /></div>
                 <div className="p-5"><div className="font-display text-2xl font-semibold" style={{ color: p.accent }}>{p.name}</div><div className="h-2 w-2/3 bg-line rounded mt-3" /><div className="h-2 w-1/2 bg-line rounded mt-2" /><div className="flex gap-2 mt-4">{[0,1,2].map(i=><div key={i} className="flex-1 h-12 rounded-lg bg-paper-2" />)}</div></div>
               </motion.div>

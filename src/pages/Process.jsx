@@ -4,17 +4,19 @@ import PageHero from '../components/PageHero.jsx'
 import { Reveal, Magnetic } from '../components/Primitives.jsx'
 import { PROCESS } from '../lib/data'
 import { setMeta } from '../lib/seo'
+import { useLocale } from '../lib/i18n'
 
 export default function Process() {
   const track = useRef(null)
   const { scrollYProgress } = useScroll({ target: track, offset: ['start 30%', 'end 70%'] })
   const fill = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
+  const { locale } = useLocale()
 
   useEffect(() => setMeta({
-    title: 'Process — How we build growth systems | UpVision',
-    description: 'Our six-step process: Discover, Define, Design, Build, Launch and Grow — a transparent path from idea to compounding revenue.',
-    path: '/process',
-  }), [])
+    title: 'How We Build Websites — UpVision Process',
+    description: 'Our five-step process: Discover, Design, Build, Launch and Grow — a transparent path from idea to a website that pays for itself.',
+    path: '/process', locale,
+  }), [locale])
 
   return (
     <>
@@ -51,7 +53,7 @@ export default function Process() {
                         <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-faint">You leave with</span>
                         <div className="font-display text-2xl font-semibold mt-2 text-gain">{p.out}</div>
                         <div className="mt-5 h-1.5 rounded-full bg-line overflow-hidden">
-                          <motion.div className="h-full bg-gain rounded-full" initial={{ width: 0 }} whileInView={{ width: `${((i + 1) / PROCESS.length) * 100}%` }} viewport={{ once: true }} transition={{ duration: 1, delay: 0.2 }} />
+                          <motion.div className="h-full bg-gain rounded-full" initial={{ width: 0 }} whileInView={{ width: `${((i + 1) / PROCESS.length) * 100}%` }} viewport={{ once: false }} transition={{ duration: 1, delay: 0.2 }} />
                         </div>
                         <span className="font-mono text-[11px] text-ink-faint mt-2 inline-block">{Math.round(((i + 1) / PROCESS.length) * 100)}% to revenue</span>
                       </div>

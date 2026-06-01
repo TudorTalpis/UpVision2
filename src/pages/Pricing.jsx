@@ -4,6 +4,7 @@ import PageHero from '../components/PageHero.jsx'
 import { Reveal, Magnetic } from '../components/Primitives.jsx'
 import { PRICING, FAQ } from '../lib/data'
 import { setMeta } from '../lib/seo'
+import { useLocale } from '../lib/i18n'
 
 const PIPE = [
   ['Investment', 'You commit capital to a system, not an expense.'],
@@ -14,18 +15,19 @@ const PIPE = [
 ]
 
 export default function Pricing() {
+  const { locale } = useLocale()
   useEffect(() => setMeta({
-    title: 'Pricing — Investment & returns | UpVision',
-    description: 'Transparent investment ranges for websites, branding and growth systems — framed around the return: presence, leads, customers and revenue.',
-    path: '/pricing',
-  }), [])
+    title: 'Website Development Pricing in Moldova — UpVision',
+    description: 'Transparent pricing for landing pages, business websites and custom web apps in Moldova. Investment ranges and what you get.',
+    path: '/pricing', locale,
+  }), [locale])
 
   return (
     <>
       <PageHero
         eyebrow="Investment, not expense"
-        titleLines={['Priced around', 'the return.']}
-        intro="Every number below is an input to a system designed to give you more back. Here’s how the investment turns into revenue — and what each stage costs."
+        titleLines={['Priced around the', 'website you need.']}
+        intro="Every number below is an input to a system designed to give you more back. Here's how the investment turns into revenue — and what each stage costs."
       />
 
       {/* value pipeline */}
@@ -80,6 +82,7 @@ export default function Pricing() {
             ))}
           </div>
           <p className="text-center font-mono text-[12px] text-ink-faint mt-8">Ranges are starting points. Final investment is scoped to your goals after a free strategy call.</p>
+          <p className="font-mono text-[11px] text-ink-faint mt-6">Ranges are indicative and confirmed after a short scoping call.</p>
         </div>
       </section>
 

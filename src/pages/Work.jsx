@@ -6,17 +6,19 @@ import { Reveal } from '../components/Primitives.jsx'
 import { PROJECTS } from '../lib/data'
 import { setMeta } from '../lib/seo'
 import { isTouch } from '../lib/hooks'
+import { useLocale } from '../lib/i18n'
 
 export default function Work() {
   const [hover, setHover] = useState(null)
   const preview = useRef(null)
   const touch = typeof window !== 'undefined' && isTouch()
+  const { locale } = useLocale()
 
   useEffect(() => setMeta({
-    title: 'Work — Case studies & results | UpVision',
-    description: 'Selected work from UpVision: rebrands, marketplaces, healthtech and e-commerce — measured by conversion, revenue and growth.',
-    path: '/work',
-  }), [])
+    title: 'Web Development Portfolio — UpVision Moldova',
+    description: 'A selection of custom websites, web apps and online stores we have designed and built.',
+    path: '/work', locale,
+  }), [locale])
 
   useEffect(() => {
     if (touch) return
@@ -31,8 +33,8 @@ export default function Work() {
     <>
       <PageHero
         eyebrow="Selected work"
-        titleLines={['Ideas we took', 'all the way.']}
-        intro="We don’t measure projects in pixels. We measure them in conversion lift, revenue and time-to-launch. Here’s a sample."
+        titleLines={['Websites that', 'drive results.']}
+        intro="We don't measure projects in pixels. We measure them in conversion lift, revenue and time-to-launch. Here's a sample."
       />
 
       {/* desktop: hover-reveal list · mobile: cards */}

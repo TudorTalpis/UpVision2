@@ -1,15 +1,17 @@
 import { Link } from 'react-router-dom'
 import { Magnetic } from './Primitives.jsx'
+import { useT } from '../lib/i18n'
 
 export default function Footer() {
   const year = new Date().getFullYear()
+  const t = useT()
   return (
     <footer className="night relative overflow-hidden pt-[clamp(70px,11vh,140px)] pb-10">
       <div className="ledger-grid" style={{ opacity: 0.18 }} />
       <div className="shell relative z-10">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <h2 className="display-lg max-w-[12ch]">
-            Let’s turn it into <span className="serif-italic text-accent">revenue.</span>
+            Let's build your <span className="serif-italic text-accent">website.</span>
           </h2>
           <Magnetic to="/contact" className="btn btn--accent self-start" cursor="Book a call" strength={0.3}>
             <span className="btn__dot" /> Book a strategy call
@@ -20,8 +22,10 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-1">
             <div className="font-display text-2xl font-semibold">UpVision</div>
             <p className="text-paper/55 mt-4 max-w-[30ch] text-[15px]">
-              We build growth systems — brand, product, software and the engine that turns them into business results.
+              {t('footer.tagline')}
             </p>
+            <p className="text-paper/40 mt-3 text-[13px] font-mono">{t('footer.location')}</p>
+            <p className="text-paper/35 mt-1.5 text-[12px] font-mono">{t('footer.addons')}</p>
           </div>
           <FCol title="Explore" links={[['Work', '/work'], ['Services', '/services'], ['Process', '/process'], ['Pricing', '/pricing']]} />
           <FCol title="Studio" links={[['About', '/about'], ['Contact', '/contact']]} />

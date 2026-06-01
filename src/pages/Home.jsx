@@ -4,17 +4,24 @@ import { motion } from 'framer-motion'
 import GrowthCanvas from '../components/GrowthCanvas.jsx'
 import Journey from '../sections/Journey.jsx'
 import { Reveal, MaskTitle, Magnetic, Stat } from '../components/Primitives.jsx'
-import { SERVICES, PROJECTS, STATS } from '../lib/data'
-import { setMeta } from '../lib/seo'
+import { SERVICES, PROJECTS, STATS, FAQ } from '../lib/data'
+import { setMeta, setJsonLd, organizationLd, localBusinessLd, faqLd } from '../lib/seo'
+import { useLocale } from '../lib/i18n'
 
-const HERO_LINES = ['We don’t', 'just build', 'websites.']
+const HERO_LINES = ['We build', 'websites that', 'help businesses']
 
 export default function Home() {
-  useEffect(() => setMeta({
-    title: 'UpVision — Growth systems for ambitious businesses',
-    description: 'UpVision turns ideas into profitable digital products. Branding, UI/UX, web development, automation and growth — one system engineered for business results.',
-    path: '/',
-  }), [])
+  const { locale } = useLocale()
+  useEffect(() => {
+    setMeta({
+      title: 'UpVision — Custom Web Development in Moldova',
+      description: 'We build fast, custom websites, landing pages, business sites, web apps and online stores for businesses in Moldova and beyond.',
+      path: '/', locale,
+    })
+    setJsonLd('ld-org', organizationLd())
+    setJsonLd('ld-local', localBusinessLd())
+    setJsonLd('ld-faq', faqLd(FAQ))
+  }, [locale])
 
   return (
     <>
@@ -26,7 +33,7 @@ export default function Home() {
 
         <div className="shell relative z-10">
           <motion.div className="eyebrow mb-7" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.7 }}>
-            A digital studio for business results
+            Custom web development studio · Moldova
           </motion.div>
 
           <h1 className="display-xl font-semibold max-w-[15ch]">
@@ -39,24 +46,22 @@ export default function Home() {
             ))}
             <span className="block overflow-hidden">
               <motion.span className="block serif-italic text-accent" initial={{ y: '110%' }} animate={{ y: '0%' }} transition={{ delay: 0.5, duration: 1, ease: [0.16, 1, 0.3, 1] }}>
-                We build growth.
+                grow.
               </motion.span>
             </span>
           </h1>
 
           <motion.p className="mt-8 text-[clamp(17px,1.6vw,21px)] text-ink-soft max-w-[52ch]" initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.8 }}>
-            UpVision turns ideas into profitable digital products. Brand, design,
-            software and automation — engineered as one system that generates
-            traffic, leads and revenue.
+            UpVision designs and builds fast, custom websites and web apps for businesses in Moldova and beyond — engineered to win trust, generate leads and pay for themselves.
           </motion.p>
 
           <motion.div className="mt-10 flex flex-wrap gap-3.5" initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.82, duration: 0.8 }}>
             <Magnetic to="/contact" className="btn btn--accent" cursor="Book a call"><span className="btn__dot" /> Start your project</Magnetic>
-            <Magnetic to="/work" className="btn btn--ghost" cursor="See results">See the results</Magnetic>
+            <Magnetic to="/work" className="btn btn--ghost" cursor="See work">See the work</Magnetic>
           </motion.div>
 
           <motion.div className="mt-14 flex flex-wrap items-center gap-x-8 gap-y-3 font-mono text-[12px] uppercase tracking-[0.14em] text-ink-faint" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 0.8 }}>
-            {['Idea', 'Brand', 'Design', 'Build', 'Launch', 'Revenue'].map((w, i, a) => (
+            {['Discover', 'Design', 'Build', 'Launch', 'Grow'].map((w, i, a) => (
               <span key={w} className="flex items-center gap-8">{w}{i < a.length - 1 && <span className="text-accent">→</span>}</span>
             ))}
           </motion.div>
@@ -69,13 +74,13 @@ export default function Home() {
           <Reveal className="eyebrow mb-8">The reframe</Reveal>
           <MaskTitle
             className="display-md font-medium max-w-[20ch] [&_em]:not-italic"
-            lines={['A website is not a cost', 'on your balance sheet.', 'It’s the hardest-working', 'asset you own.']}
+            lines={['A website is not a cost', 'on your balance sheet.', "It's your hardest-working", 'business asset.']}
           />
           <Reveal delay={0.2} className="mt-10 grid md:grid-cols-3 gap-8 max-w-5xl">
             {[
               ['It works 24/7', 'Your best salesperson never sleeps, never calls in sick, and closes while you do.'],
               ['It compounds', 'Brand, SEO and conversion improvements stack — the return grows long after launch.'],
-              ['It’s measurable', 'Every euro maps to traffic, leads and revenue you can actually see in a dashboard.'],
+              ["It's measurable", 'Every euro maps to traffic, leads and revenue you can actually see in a dashboard.'],
             ].map(([t, d]) => (
               <div key={t} className="border-t border-line-strong pt-5">
                 <h3 className="font-display text-xl font-semibold mb-2">{t}</h3>
@@ -95,8 +100,8 @@ export default function Home() {
         <div className="shell relative z-10">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
             <div>
-              <span className="eyebrow mb-6">What we do</span>
-              <MaskTitle className="display-md mt-5 max-w-[16ch]" lines={['One partner for', 'the whole system.']} />
+              <span className="eyebrow mb-6">What we build</span>
+              <MaskTitle className="display-md mt-5 max-w-[16ch]" lines={['Custom web development,', 'end to end.']} />
             </div>
             <Link to="/services" className="btn btn--ghost !text-paper !border-white/25 hover:!border-white self-start" data-cursor="All services">All services →</Link>
           </div>

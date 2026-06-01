@@ -3,33 +3,29 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import PageHero from '../components/PageHero.jsx'
 import { Reveal, Magnetic } from '../components/Primitives.jsx'
-import { SERVICES, PROCESS } from '../lib/data'
-import { setMeta, setJsonLd } from '../lib/seo'
+import { SERVICES, PROCESS, ADDONS, ADDONS_NOTE } from '../lib/data'
+import { setMeta, setJsonLd, serviceListLd, breadcrumbLd } from '../lib/seo'
+import { useLocale } from '../lib/i18n'
 
 export default function Services() {
-  const [open, setOpen] = useState('web-design-development')
+  const [open, setOpen] = useState('custom-websites')
+  const { locale } = useLocale()
   useEffect(() => {
     setMeta({
-      title: 'Services — Web development, branding, UI/UX & automation | UpVision',
-      description: 'Website design & development, branding, UI/UX, automation, business digitalization and growth — delivered as one revenue-focused system.',
-      path: '/services',
+      title: 'Web Development Services in Moldova — UpVision',
+      description: 'Custom websites, landing pages, business websites, web applications and e-commerce development in Moldova. Automation available on request.',
+      path: '/services', locale,
     })
-    setJsonLd('ld-services', {
-      '@context': 'https://schema.org',
-      '@type': 'ItemList',
-      itemListElement: SERVICES.map((s, i) => ({
-        '@type': 'Service', position: i + 1, name: s.title, description: s.short,
-        provider: { '@type': 'Organization', name: 'UpVision' },
-      })),
-    })
-  }, [])
+    setJsonLd('ld-services', serviceListLd(SERVICES))
+    setJsonLd('ld-breadcrumb', breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Services', path: '/services' }]))
+  }, [locale])
 
   return (
     <>
       <PageHero
-        eyebrow="Capabilities"
-        titleLines={['Everything from', 'idea to income.']}
-        intro="Seven capabilities, one team. Engage them individually or as a complete growth system — either way, every deliverable maps to a business outcome."
+        eyebrow="What we build"
+        titleLines={['Custom websites,', 'built to grow.']}
+        intro="Five ways we build your web presence — custom websites, landing pages, business sites, web apps and online stores. Automation available on request."
       />
 
       <section className="relative pb-[clamp(70px,11vh,150px)]">
@@ -71,6 +67,22 @@ export default function Services() {
         </div>
       </section>
 
+      {/* add-ons strip */}
+      <section className="relative pb-[clamp(60px,9vh,120px)]">
+        <div className="shell">
+          <span className="eyebrow mb-6">Optional, on request</span>
+          <p className="text-ink-soft max-w-[60ch] mb-7">{ADDONS_NOTE}</p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {ADDONS.map((a) => (
+              <div key={a.title} className="border border-line rounded-xl p-5">
+                <h3 className="font-display text-lg font-semibold mb-1.5">{a.title}</h3>
+                <p className="text-ink-soft text-[14px]">{a.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* mini process strip */}
       <section className="relative py-[clamp(60px,9vh,120px)] night overflow-hidden">
         <div className="ledger-grid" style={{ opacity: 0.16 }} />
@@ -102,7 +114,7 @@ function CTA() {
     <section className="relative py-[clamp(70px,11vh,140px)] text-center">
       <div className="shell max-w-3xl mx-auto">
         <h2 className="display-md mb-7">Not sure which you need?</h2>
-        <p className="text-lg text-ink-soft mb-9">Tell us the goal. We’ll map the shortest path to it — and tell you honestly what’s worth investing in first.</p>
+        <p className="text-lg text-ink-soft mb-9">Tell us the goal. We'll map the shortest path to it — and tell you honestly what's worth investing in first.</p>
         <Magnetic to="/contact" className="btn btn--accent" cursor="Book a call"><span className="btn__dot" /> Book a free strategy call</Magnetic>
       </div>
     </section>

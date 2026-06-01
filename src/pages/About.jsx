@@ -3,22 +3,24 @@ import PageHero from '../components/PageHero.jsx'
 import { Reveal, Stat, Magnetic } from '../components/Primitives.jsx'
 import { STATS } from '../lib/data'
 import { setMeta } from '../lib/seo'
+import { useLocale } from '../lib/i18n'
 
 const VALUES = [
-  ['Outcomes over output', 'We’re hired to move a number, not to deliver a folder of files. Every decision ladders up to a business result.'],
+  ['Outcomes over output', "We're hired to move a number, not to deliver a folder of files. Every decision ladders up to a business result."],
   ['One team, no handoffs', 'Strategy, design and engineering sit together. Nothing gets lost in translation between agencies.'],
   ['Senior, hands-on', 'The people you meet are the people who do the work. No juniors hiding behind account managers.'],
-  ['Build to last', 'Clean systems and code your team can own and maintain — never a black box you can’t escape.'],
+  ['Build to last', "Clean systems and code your team can own and maintain — never a black box you can't escape."],
 ]
 
 const MARQUEE = ['Strategy', 'Branding', 'UI/UX', 'React', 'Automation', 'SEO', 'Growth', 'Motion', 'E-commerce', 'Product']
 
 export default function About() {
+  const { locale } = useLocale()
   useEffect(() => setMeta({
-    title: 'About — A studio built for business results | UpVision',
-    description: 'UpVision is a founder-led digital studio of strategists, designers and engineers building growth systems for ambitious businesses.',
-    path: '/about',
-  }), [])
+    title: 'About UpVision — Web Development Studio in Moldova',
+    description: 'UpVision is a founder-led web development studio in Chișinău, Moldova — building custom websites, web apps and online stores for businesses that want to grow.',
+    path: '/about', locale,
+  }), [locale])
 
   return (
     <>
@@ -42,7 +44,7 @@ export default function About() {
             <span className="eyebrow mb-6">Why we exist</span>
             <h2 className="display-md mt-5 mb-6">We believe a website should pay for itself — many times over.</h2>
             <div className="space-y-4 text-lg text-ink-soft max-w-[52ch]">
-              <p>Too many businesses are sold a “website” as a one-off cost: pretty, static, and disconnected from how the company actually makes money.</p>
+              <p>Too many businesses are sold a "website" as a one-off cost: pretty, static, and disconnected from how the company actually makes money.</p>
               <p>We do the opposite. We treat your digital presence as a growth system — designed, built and tuned around the actions that generate revenue, and instrumented so you can see the return.</p>
               <p>The result is work that looks world-class and behaves like your best employee.</p>
             </div>
@@ -72,8 +74,8 @@ export default function About() {
 
       <section className="relative py-[clamp(70px,11vh,140px)] text-center">
         <div className="shell max-w-2xl mx-auto">
-          <h2 className="display-md mb-7">Let’s build your growth system.</h2>
-          <Magnetic to="/contact" className="btn btn--accent" cursor="Book a call"><span className="btn__dot" /> Book a strategy call</Magnetic>
+          <h2 className="display-md mb-7">Ready to build your website?</h2>
+          <Magnetic to="/contact" className="btn btn--accent" cursor="Book a call"><span className="btn__dot" /> Start your project</Magnetic>
         </div>
       </section>
     </>

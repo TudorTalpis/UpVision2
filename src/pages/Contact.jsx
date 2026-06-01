@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Magnetic } from '../components/Primitives.jsx'
 import { setMeta, setJsonLd } from '../lib/seo'
+import { useLocale } from '../lib/i18n'
 
 const BUDGETS = ['< $7k', '$7–18k', '$18–40k', '$40k+']
 const NEEDS = ['Website', 'Branding', 'UI/UX', 'Automation', 'Digitalization', 'Marketing', 'Strategy']
@@ -10,19 +11,20 @@ export default function Contact() {
   const [step, setStep] = useState(0)
   const [data, setData] = useState({ name: '', email: '', company: '', budget: '', needs: [], note: '' })
   const [sent, setSent] = useState(false)
+  const { locale } = useLocale()
 
   useEffect(() => {
     setMeta({
-      title: 'Contact — Book a free strategy call | UpVision',
-      description: 'Tell us the goal and we’ll map the shortest path to it. Book a free 30-minute strategy call with a senior partner at UpVision.',
-      path: '/contact',
+      title: 'Start a Web Project in Moldova — Contact UpVision',
+      description: 'Tell us about your website project. Book a free 30-minute call with a senior partner at UpVision — custom web development studio in Moldova.',
+      path: '/contact', locale,
     })
     setJsonLd('ld-org', {
       '@context': 'https://schema.org', '@type': 'Organization', name: 'UpVision',
       url: 'https://upvision.studio', email: 'hello@upvision.studio',
       sameAs: ['https://www.linkedin.com/', 'https://www.instagram.com/'],
     })
-  }, [])
+  }, [locale])
 
   const toggle = (n) => setData((d) => ({ ...d, needs: d.needs.includes(n) ? d.needs.filter((x) => x !== n) : [...d.needs, n] }))
   const canNext =
@@ -35,11 +37,11 @@ export default function Contact() {
       <div className="shell relative z-10 grid lg:grid-cols-2 gap-[clamp(40px,6vw,90px)] items-start">
         {/* left */}
         <div className="lg:sticky lg:top-32">
-          <span className="eyebrow mb-7">Let’s begin</span>
-          <h1 className="display-lg mt-5 mb-7 max-w-[12ch]">Tell us the goal.</h1>
+          <span className="eyebrow mb-7">Start your project</span>
+          <h1 className="display-lg mt-5 mb-7 max-w-[12ch]">Let's build your website.</h1>
           <p className="text-lg text-ink-soft max-w-[44ch] mb-9">
-            Book a free 30-minute strategy call. You’ll leave with a clear view of
-            what it takes to get there — whether or not we build it together.
+            Book a free 30-minute call. Tell us what you need and we'll map the
+            shortest path to a website that works — whether or not we build it together.
           </p>
           <ul className="space-y-3 mb-9">
             {['Reply within one business day', 'A senior partner on the first call', 'No obligation, no hard sell'].map((t) => (
@@ -64,7 +66,7 @@ export default function Contact() {
               <motion.div key="done" className="text-center py-10" initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }}>
                 <div className="w-16 h-16 mx-auto rounded-full bg-accent text-white grid place-items-center text-2xl mb-6">✓</div>
                 <h3 className="font-display text-3xl font-semibold mb-3">Got it, {data.name.split(' ')[0] || 'there'}.</h3>
-                <p className="text-ink-soft">We’re already thinking about it. Expect a note at <strong>{data.email}</strong> within a business day.</p>
+                <p className="text-ink-soft">We're already thinking about it. Expect a note at <strong>{data.email}</strong> within a business day.</p>
               </motion.div>
             ) : (
               <motion.form key={step} onSubmit={(e) => { e.preventDefault(); setSent(true) }}
