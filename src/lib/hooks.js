@@ -15,7 +15,7 @@ export function useTilt(max = 6) {
     const el = ref.current
     if (!el || isTouch() || isReduced()) return
     let raf
-    const enter = () => { el.style.transition = 'transform 0.2s ease-out' }
+    const enter = () => { el.style.transition = 'transform 0.2s ease-out'; el.style.willChange = 'transform' }
     const move = (e) => {
       const r = el.getBoundingClientRect()
       const px = (e.clientX - r.left) / r.width - 0.5
@@ -31,6 +31,7 @@ export function useTilt(max = 6) {
       // slow, eased return to rest
       el.style.transition = 'transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)'
       el.style.transform = ''
+      el.style.willChange = 'auto'
     }
     el.addEventListener('mouseenter', enter)
     el.addEventListener('mousemove', move)

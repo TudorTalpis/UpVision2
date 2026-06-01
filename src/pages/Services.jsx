@@ -75,7 +75,7 @@ export default function Services() {
           <p className="text-ink-soft max-w-[60ch] mb-7">{ADDONS_NOTE}</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {ADDONS.map((a) => (
-              <Tilt key={a.title} max={7} className="border border-line rounded-xl p-5 bg-panel h-full will-change-transform transition-[box-shadow,border-color] duration-300 hover:border-accent/40 hover:shadow-[0_22px_55px_-42px_rgba(24,22,15,0.55)]">
+              <Tilt key={a.title} max={7} className="border border-line rounded-xl p-5 bg-panel h-full transition-[box-shadow,border-color] duration-300 hover:border-accent/40 hover:shadow-[0_22px_55px_-42px_rgba(24,22,15,0.55)]">
                 <h3 className="font-display text-lg font-semibold mb-1.5">{a.title}</h3>
                 <p className="text-ink-soft text-[14px]">{a.d}</p>
               </Tilt>

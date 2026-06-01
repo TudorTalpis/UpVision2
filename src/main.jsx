@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react'
+import React, { lazy } from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
@@ -14,8 +14,6 @@ const Pricing = lazy(() => import('./pages/Pricing.jsx'))
 const About = lazy(() => import('./pages/About.jsx'))
 const Contact = lazy(() => import('./pages/Contact.jsx'))
 const NotFound = lazy(() => import('./pages/NotFound.jsx'))
-
-const fallback = <div style={{ minHeight: '60vh' }} />
 
 const pageRoutes = [
   { index: true, element: <Home /> },
@@ -33,7 +31,7 @@ const tree = (locale) => ({
   path: locale === 'en' ? '/' : `/${locale}`,
   element: (
     <LocaleProvider locale={locale}>
-      <Suspense fallback={fallback}><App /></Suspense>
+      <App />
     </LocaleProvider>
   ),
   children: pageRoutes,

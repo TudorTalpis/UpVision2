@@ -51,7 +51,7 @@ export default function Process() {
                       <p className="text-lg text-ink-soft max-w-[48ch]">{p.d}</p>
                     </div>
                     <div className="md:pt-2">
-                      <Tilt max={6} className="rounded-xl border border-line bg-panel p-6 will-change-transform transition-[box-shadow,border-color] duration-300 hover:border-accent/40 hover:shadow-[0_22px_55px_-42px_rgba(24,22,15,0.55)]">
+                      <Tilt max={6} className="rounded-xl border border-line bg-panel p-6 transition-[box-shadow,border-color] duration-300 hover:border-accent/40 hover:shadow-[0_22px_55px_-42px_rgba(24,22,15,0.55)]">
                         <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-faint">{t('proc.youLeave')}</span>
                         <div className="font-display text-2xl font-semibold mt-2 text-gain">{p.out}</div>
                         <div className="mt-5 h-1.5 rounded-full bg-line overflow-hidden">

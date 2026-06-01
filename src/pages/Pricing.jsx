@@ -168,7 +168,7 @@ function TierCard({ tier, t }) {
   return (
     <div
       ref={ref}
-      className={`group relative h-full rounded-2xl p-8 border flex flex-col will-change-transform transition-[box-shadow,border-color] duration-300 ${
+      className={`group relative h-full rounded-2xl p-8 border flex flex-col transition-[box-shadow,border-color] duration-300 ${
         tier.featured
           ? 'night border-transparent shadow-[0_30px_80px_-40px_rgba(242,75,30,0.5)]'
           : 'bg-panel border-line hover:border-ink/25 hover:shadow-[0_30px_70px_-45px_rgba(24,22,15,0.5)]'

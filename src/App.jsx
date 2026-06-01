@@ -1,10 +1,11 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, Suspense } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import Lenis from 'lenis'
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion'
 import Cursor from './components/Cursor.jsx'
 import Nav from './components/Nav.jsx'
 import Footer from './components/Footer.jsx'
+import Skeleton from './components/Skeleton.jsx'
 import { isReduced } from './lib/hooks'
 import { connectLenis, ScrollTrigger, registerGsap } from './lib/gsap'
 
@@ -47,7 +48,9 @@ export default function App() {
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         >
-          <Outlet />
+          <Suspense fallback={<Skeleton />}>
+            <Outlet />
+          </Suspense>
         </motion.main>
       </AnimatePresence>
       <Footer />

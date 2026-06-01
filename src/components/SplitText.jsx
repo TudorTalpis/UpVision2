@@ -47,7 +47,7 @@ export default function SplitText({
       {pieces.map((p, i) =>
         /\s+/.test(p)
           ? <span key={i} aria-hidden="true">{p}</span>
-          : <span key={i} data-piece aria-hidden="true" style={{ display: 'inline-block', willChange: 'transform, opacity' }}>{p}</span>
+          : <span key={i} data-piece aria-hidden="true" style={{ display: 'inline-block' }}>{p}</span>
       )}
     </Tag>
   )

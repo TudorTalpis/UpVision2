@@ -18,9 +18,36 @@
       href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@500;600&display=swap"
       rel="stylesheet"
     />
+    <style>
+      /* Critical first-paint styles + instant skeleton (replaced when React mounts) */
+      html, body { margin: 0; background: #f5f2ec; }
+      #boot { min-height: 100vh; padding: 88px clamp(20px, 5vw, 64px) 0; box-sizing: border-box; }
+      #boot .row { display: flex; align-items: center; justify-content: space-between; margin-bottom: clamp(60px, 12vh, 140px); }
+      #boot .logo { width: 132px; height: 30px; }
+      #boot .menu { width: 180px; height: 14px; }
+      #boot .bar, #boot .logo, #boot .menu { position: relative; overflow: hidden; border-radius: 8px; background: #ece7dd; }
+      #boot .bar { height: clamp(40px, 7vw, 84px); margin-bottom: 16px; }
+      #boot .sm { height: 16px; border-radius: 6px; background: #ece7dd; margin-bottom: 12px; position: relative; overflow: hidden; }
+      #boot .bar::after, #boot .sm::after, #boot .logo::after, #boot .menu::after {
+        content: ''; position: absolute; inset: 0; transform: translateX(-100%);
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent);
+        animation: bootShimmer 1.4s infinite;
+      }
+      @keyframes bootShimmer { 100% { transform: translateX(100%); } }
+      @media (prefers-reduced-motion: reduce) { #boot *::after { animation: none; } }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div id="boot" aria-hidden="true">
+        <div class="row"><div class="logo"></div><div class="menu"></div></div>
+        <div class="bar" style="width: 70%"></div>
+        <div class="bar" style="width: 46%; margin-bottom: 40px"></div>
+        <div class="sm" style="width: 52%; max-width: 560px"></div>
+        <div class="sm" style="width: 44%; max-width: 480px"></div>
+        <div class="sm" style="width: 34%; max-width: 380px"></div>
+      </div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
