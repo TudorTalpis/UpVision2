@@ -168,7 +168,7 @@ function TierCard({ tier, t }) {
   return (
     <div
       ref={ref}
-      className={`group relative h-full rounded-2xl p-8 border flex flex-col transition-[box-shadow,border-color] duration-300 ${
+      className={`group relative overflow-hidden h-full rounded-2xl p-8 border flex flex-col transition-[box-shadow,border-color] duration-300 ${
         tier.featured
           ? 'night border-transparent shadow-[0_30px_80px_-40px_rgba(242,75,30,0.5)]'
           : 'bg-panel border-line hover:border-ink/25 hover:shadow-[0_30px_70px_-45px_rgba(24,22,15,0.5)]'
@@ -197,6 +197,7 @@ function TierCard({ tier, t }) {
       <Magnetic to="/contact" className={`btn ${tier.featured ? 'btn--accent' : '!bg-ink !text-paper'} w-full justify-center`} cursor="Start" strength={0.2}>
         <span className="btn__dot" /> {tier.invest === 'Custom' ? t('price.talk') : `${t('price.start')} ${tier.name}`}
       </Magnetic>
+      <span className="tilt-glare" aria-hidden="true" />
     </div>
   )
 }

@@ -244,6 +244,21 @@ body::before {
   *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
 }
 
+/* ---------- tilt glare (pointer-following sheen) ---------- */
+.tilt-glare {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.4), transparent 50%);
+  mix-blend-mode: soft-light;
+}
+[data-tilt]:hover .tilt-glare { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .tilt-glare { display: none; } }
+
 /* ---------- loading skeleton ---------- */
 @keyframes shimmer { 100% { transform: translateX(100%); } }
 .sk {

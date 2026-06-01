@@ -38,14 +38,14 @@ export default function Services() {
                 <div key={s.slug} className="border-b border-line">
                   <button
                     onClick={() => setOpen(isOpen ? '' : s.slug)}
-                    className="w-full grid grid-cols-[44px_1fr_auto] md:grid-cols-[72px_1fr_1fr_auto] items-center gap-4 py-7 text-left transition-colors hover:opacity-100"
+                    className="group w-full grid grid-cols-[44px_1fr_auto] md:grid-cols-[72px_1fr_1fr_auto] items-center gap-4 py-7 px-3 -mx-3 rounded-xl text-left transition-colors hover:bg-paper-2/50"
                     data-cursor={isOpen ? 'Close' : 'Open'}
                     style={{ opacity: isOpen ? 1 : 0.92 }}
                   >
-                    <span className="font-mono text-sm text-accent">{s.n}</span>
-                    <h2 className="font-display text-[clamp(24px,3.4vw,42px)] font-medium">{s.title}</h2>
+                    <span className="font-mono text-sm text-accent transition-transform duration-300 group-hover:scale-110">{s.n}</span>
+                    <h2 className="font-display text-[clamp(24px,3.4vw,42px)] font-medium transition-[color,transform] duration-300 group-hover:translate-x-1 group-hover:text-accent">{s.title}</h2>
                     <p className="hidden md:block text-ink-soft text-[15px]">{s.short}</p>
-                    <span className={`text-2xl text-ink-faint transition-transform duration-500 ${isOpen ? 'rotate-45 text-accent' : ''}`}>+</span>
+                    <span className={`text-2xl text-ink-faint transition-transform duration-500 ${isOpen ? 'rotate-45 text-accent' : 'group-hover:rotate-90 group-hover:text-accent'}`}>+</span>
                   </button>
                   <motion.div initial={false} animate={{ height: isOpen ? 'auto' : 0, opacity: isOpen ? 1 : 0 }} transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }} className="overflow-hidden">
                     <div className="grid md:grid-cols-[72px_1.4fr_1fr] gap-6 pb-9 md:pl-0">

@@ -14,16 +14,21 @@ export function useTilt(max = 6) {
   useEffect(() => {
     const el = ref.current
     if (!el || isTouch() || isReduced()) return
+    el.setAttribute('data-tilt', '')
     let raf
     const enter = () => { el.style.transition = 'transform 0.2s ease-out'; el.style.willChange = 'transform' }
     const move = (e) => {
       const r = el.getBoundingClientRect()
-      const px = (e.clientX - r.left) / r.width - 0.5
-      const py = (e.clientY - r.top) / r.height - 0.5
+      const nx = (e.clientX - r.left) / r.width
+      const ny = (e.clientY - r.top) / r.height
+      const px = nx - 0.5
+      const py = ny - 0.5
       cancelAnimationFrame(raf)
       raf = requestAnimationFrame(() => {
         el.style.transform =
           `perspective(900px) rotateX(${(-py * max).toFixed(2)}deg) rotateY(${(px * max).toFixed(2)}deg) translateY(-6px)`
+        el.style.setProperty('--mx', `${(nx * 100).toFixed(1)}%`)
+        el.style.setProperty('--my', `${(ny * 100).toFixed(1)}%`)
       })
     }
     const reset = () => {
@@ -40,6 +45,7 @@ export function useTilt(max = 6) {
       el.removeEventListener('mouseenter', enter)
       el.removeEventListener('mousemove', move)
       el.removeEventListener('mouseleave', reset)
+      el.removeAttribute('data-tilt')
       cancelAnimationFrame(raf)
     }
   }, [max])

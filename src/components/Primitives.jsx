@@ -87,11 +87,17 @@ export function Parallax({ children, speed = 0.12, className = '', as = 'div' })
   return <Tag ref={ref} className={className}>{children}</Tag>
 }
 
-/* Tilt-on-hover wrapper — eases back slowly on leave. Desktop only. */
+/* Tilt-on-hover wrapper with a pointer-following glare. Eases back slowly
+   on leave. Desktop only (the hook no-ops on touch / reduced-motion). */
 export function Tilt({ children, className = '', max = 6, as = 'div' }) {
   const ref = useTilt(max)
   const Tag = as
-  return <Tag ref={ref} className={className}>{children}</Tag>
+  return (
+    <Tag ref={ref} className={`relative overflow-hidden ${className}`}>
+      {children}
+      <span className="tilt-glare" aria-hidden="true" />
+    </Tag>
+  )
 }
 
 /* Magnetic link/button. */
