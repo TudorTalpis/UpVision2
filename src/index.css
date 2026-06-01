@@ -214,3 +214,8 @@ body::before {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
 }
+
+/* Hint the compositor only where transform/opacity actually animate. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-piece], [data-line], [data-phase] { will-change: transform, opacity; }
+}
