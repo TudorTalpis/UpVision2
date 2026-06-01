@@ -1,5 +1,5 @@
 import { useRef, useLayoutEffect } from 'react'
-import { gsap, registerGsap, prefersReduced, mm } from '../lib/gsap'
+import { gsap, ScrollTrigger, registerGsap, prefersReduced } from '../lib/gsap'
 
 const PHASES = [
   ['Wireframe', 'A rough structure — boxes and intent.'],
@@ -14,54 +14,46 @@ const PHASES = [
 
 export default function Journey() {
   const root = useRef(null)
-  const frame = useRef(null)
 
   useLayoutEffect(() => {
     registerGsap()
     const ctx = gsap.context(() => {
       const steps = gsap.utils.toArray('[data-phase]')
+      const captions = gsap.utils.toArray('[data-caption]')
       const counters = gsap.utils.toArray('[data-counter]')
+      const meter = root.current.querySelector('[data-meter]')
+      const last = PHASES.length - 1
 
-      if (prefersReduced()) { gsap.set(steps, { autoAlpha: 1 }); return }
+      // Map a 0..1 scroll progress to a "playhead" across the phases and
+      // cross-fade only the active phase (plus its neighbour mid-transition).
+      // Works at every width; scrubbed so scrolling up un-builds the site.
+      const apply = (progress) => {
+        const head = progress * last // 0..last
+        steps.forEach((s, i) => {
+          const d = Math.abs(i - head)
+          gsap.set(s, { autoAlpha: d < 1 ? 1 - d : 0, y: (i - head) * 16 })
+        })
+        captions.forEach((c, i) => {
+          gsap.set(c, { opacity: Math.abs(i - head) < 0.85 ? 1 : 0.32 })
+        })
+        if (meter) gsap.set(meter, { scaleX: progress })
+        counters.forEach((c) => {
+          const to = +c.dataset.counter
+          c.textContent = Math.round(to * progress).toLocaleString()
+        })
+      }
 
-      mm.add(
-        {
-          isDesktop: '(min-width: 769px)',
-          isMobile: '(max-width: 768px)',
-        },
-        (context) => {
-          const { isDesktop } = context.conditions
-          if (!isDesktop) {
-            steps.forEach((s) => {
-              gsap.fromTo(s, { autoAlpha: 0, y: 24 }, {
-                autoAlpha: 1, y: 0, duration: 0.6, ease: 'expo.out',
-                scrollTrigger: { trigger: s, start: 'top 80%', toggleActions: 'play reverse play reverse' },
-              })
-            })
-            return
-          }
+      // Reduced motion: show the finished, live website and full value — no scrub.
+      if (prefersReduced()) { apply(1); return }
 
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: root.current,
-              start: 'top top',
-              end: '+=' + (PHASES.length * 60) + '%',
-              pin: frame.current,
-              scrub: 1,
-            },
-          })
-          steps.forEach((s, i) => {
-            tl.fromTo(s, { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 1 }, i)
-            if (i !== steps.length - 1) tl.to(s, { autoAlpha: 0, y: -30, duration: 1 }, i + 0.9)
-          })
-          tl.fromTo('[data-meter]', { scaleX: 0 }, { scaleX: 1, duration: PHASES.length }, 0)
-          counters.forEach((c) => {
-            const to = +c.dataset.counter
-            const obj = { v: 0 }
-            tl.to(obj, { v: to, duration: PHASES.length, onUpdate: () => { c.textContent = Math.round(obj.v).toLocaleString() } }, 0)
-          })
-        }
-      )
+      apply(0)
+      ScrollTrigger.create({
+        trigger: root.current,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 0.6,
+        onUpdate: (self) => apply(self.progress),
+      })
     }, root)
     return () => ctx.revert()
   }, [])
@@ -81,8 +73,9 @@ export default function Journey() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-[clamp(24px,4vw,64px)] items-start">
-          <div ref={frame} className="rounded-2xl border border-line bg-panel shadow-[0_40px_90px_-50px_rgba(24,22,15,0.5)] overflow-hidden">
+        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-[clamp(24px,4vw,64px)]">
+          <div>
+          <div className="lg:sticky lg:top-[16vh] rounded-2xl border border-line bg-panel shadow-[0_40px_90px_-50px_rgba(24,22,15,0.5)] overflow-hidden">
             <div className="flex items-center gap-3 px-4 py-3 border-b border-line bg-paper-2/60">
               <span className="flex gap-1.5">
                 <i className="w-2.5 h-2.5 rounded-full bg-line-strong" />
@@ -108,10 +101,11 @@ export default function Journey() {
               </div>
             </div>
           </div>
+          </div>
 
-          <div className="flex flex-col gap-[clamp(12px,2vh,20px)]">
+          <div className="flex flex-col">
             {PHASES.map(([label, line], i) => (
-              <div key={label} className="border-t border-line pt-4">
+              <div key={label} data-caption className="border-t border-line pt-5 pb-5 lg:min-h-[clamp(140px,22vh,240px)] flex flex-col justify-center">
                 <div className="flex items-center gap-3 mb-1.5">
                   <span className="font-mono text-sm text-accent">0{i + 1}</span>
                   <h3 className="font-display text-xl font-semibold">{label}</h3>
