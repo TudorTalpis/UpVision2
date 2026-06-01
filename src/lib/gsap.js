@@ -26,3 +26,11 @@ export function connectLenis(lenis) {
 export const mm = typeof window !== 'undefined' ? gsap.matchMedia() : null
 
 export { gsap, ScrollTrigger }
+
+if (typeof window !== 'undefined') {
+  let rt
+  window.addEventListener('resize', () => {
+    clearTimeout(rt)
+    rt = setTimeout(() => ScrollTrigger.refresh(), 200)
+  })
+}
