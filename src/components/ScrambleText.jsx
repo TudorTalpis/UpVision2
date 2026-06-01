@@ -16,6 +16,7 @@ export default function ScrambleText({ text, as: Tag = 'span', className = '', a
     if (!el) return
     if (prefersReduced()) { el.textContent = text; return }
 
+    el.textContent = text // own this node's content imperatively (React renders it empty)
     let raf, t0
     const render = (p) => {
       const reveal = Math.floor(p * text.length)
@@ -47,8 +48,8 @@ export default function ScrambleText({ text, as: Tag = 'span', className = '', a
     <Tag className={className} aria-label={text}>
       {/* Visually hidden real text — always in the DOM for tests + screen readers */}
       <span style={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap' }}>{text}</span>
-      {/* Animated display span */}
-      <span ref={displayRef} aria-hidden="true">{text}</span>
+      {/* Animated display span — content owned by the effect, not React */}
+      <span ref={displayRef} aria-hidden="true" suppressHydrationWarning />
     </Tag>
   )
 }

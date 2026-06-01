@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import GrowthCanvas from '../components/GrowthCanvas.jsx'
 import Journey from '../sections/Journey.jsx'
@@ -8,12 +7,11 @@ import SplitText from '../components/SplitText.jsx'
 import ScrambleText from '../components/ScrambleText.jsx'
 import { SERVICES, PROJECTS, STATS, FAQ } from '../lib/data'
 import { setMeta, setJsonLd, organizationLd, localBusinessLd, faqLd } from '../lib/seo'
-import { useLocale } from '../lib/i18n'
-
-const HERO_LINES = ['We build', 'websites that', 'help businesses']
+import { useLocale, useT, LocaleLink as Link } from '../lib/i18n'
 
 export default function Home() {
   const { locale } = useLocale()
+  const t = useT()
   useEffect(() => {
     setMeta({
       title: 'UpVision — Custom Web Development in Moldova',
@@ -35,26 +33,25 @@ export default function Home() {
 
         <div className="shell relative z-10">
           <motion.div className="mb-7" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-            <ScrambleText as="span" className="eyebrow" text="Custom web development studio · Moldova" start="top 99%" />
+            <ScrambleText key={locale} as="span" className="eyebrow" text={t('hero.eyebrow')} />
           </motion.div>
 
           <h1 className="display-xl font-semibold max-w-[15ch]">
-            <SplitText as="span" className="block" by="word" play="load" delay={0.12} text={HERO_LINES.join(' ')} />
-            <SplitText as="span" className="block serif-italic text-accent" by="word" play="load" delay={0.78} text="grow." />
+            <SplitText key={`a${locale}`} as="span" className="block" by="word" play="load" delay={0.12} text={`${t('hero.l1')} ${t('hero.l2')} ${t('hero.l3')}`} />
+            <SplitText key={`b${locale}`} as="span" className="block serif-italic text-accent" by="word" play="load" delay={0.78} text={t('hero.accent')} />
           </h1>
 
           <p className="mt-8 text-[clamp(17px,1.6vw,21px)] text-ink-soft max-w-[52ch]">
-            <SplitText as="span" by="word" blur={false} y="0.4em" stagger={0.012} play="load" delay={0.9}
-              text="UpVision designs and builds fast, custom websites and web apps for businesses in Moldova and beyond — engineered to win trust, generate leads and pay for themselves." />
+            <SplitText key={`c${locale}`} as="span" by="word" blur={false} y="0.4em" stagger={0.012} play="load" delay={0.9} text={t('hero.sub')} />
           </p>
 
           <motion.div className="mt-10 flex flex-wrap gap-3.5" initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.82, duration: 0.8 }}>
-            <Magnetic to="/contact" className="btn btn--accent" cursor="Book a call"><span className="btn__dot" /> Start your project</Magnetic>
-            <Magnetic to="/work" className="btn btn--ghost" cursor="See work">See the work</Magnetic>
+            <Magnetic to="/contact" className="btn btn--accent" cursor="Book a call"><span className="btn__dot" /> {t('hero.ctaPrimary')}</Magnetic>
+            <Magnetic to="/work" className="btn btn--ghost" cursor="See work">{t('hero.ctaSecondary')}</Magnetic>
           </motion.div>
 
           <motion.div className="mt-14 flex flex-wrap items-center gap-x-8 gap-y-3 font-mono text-[12px] uppercase tracking-[0.14em] text-ink-faint" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 0.8 }}>
-            {['Discover', 'Design', 'Build', 'Launch', 'Grow'].map((w, i, a) => (
+            {t('hero.steps').split(',').map((w, i, a) => (
               <span key={w} className="flex items-center gap-8">{w}{i < a.length - 1 && <span className="text-accent">→</span>}</span>
             ))}
           </motion.div>
@@ -64,20 +61,21 @@ export default function Home() {
       {/* ---------- MANIFESTO ---------- */}
       <section className="relative py-[clamp(70px,11vh,150px)] border-y border-line bg-paper-2/40">
         <div className="shell">
-          <div className="eyebrow mb-8"><ScrambleText as="span" text="The reframe" /></div>
+          <div className="eyebrow mb-8"><ScrambleText key={locale} as="span" text={t('manifesto.eyebrow')} /></div>
           <MaskTitle
+            key={locale}
             className="display-md font-medium max-w-[20ch] [&_em]:not-italic"
-            lines={['A website is not a cost', 'on your balance sheet.', "It's your hardest-working", 'business asset.']}
+            lines={t('manifesto.title').split('|')}
           />
           <Reveal delay={0.2} className="mt-10 grid md:grid-cols-3 gap-8 max-w-5xl">
             {[
-              ['It works 24/7', 'Your best salesperson never sleeps, never calls in sick, and closes while you do.'],
-              ['It compounds', 'Brand, SEO and conversion improvements stack — the return grows long after launch.'],
-              ["It's measurable", 'Every euro maps to traffic, leads and revenue you can actually see in a dashboard.'],
-            ].map(([t, d]) => (
-              <div key={t} className="border-t border-line-strong pt-5">
-                <h3 className="font-display text-xl font-semibold mb-2">{t}</h3>
-                <p className="text-ink-soft text-[15px]">{d}</p>
+              [t('manifesto.c1t'), t('manifesto.c1d')],
+              [t('manifesto.c2t'), t('manifesto.c2d')],
+              [t('manifesto.c3t'), t('manifesto.c3d')],
+            ].map(([title, desc]) => (
+              <div key={title} className="border-t border-line-strong pt-5">
+                <h3 className="font-display text-xl font-semibold mb-2">{title}</h3>
+                <p className="text-ink-soft text-[15px]">{desc}</p>
               </div>
             ))}
           </Reveal>
@@ -93,10 +91,10 @@ export default function Home() {
         <div className="shell relative z-10">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
             <div>
-              <span className="eyebrow mb-6"><ScrambleText as="span" text="What we build" /></span>
-              <MaskTitle className="display-md mt-5 max-w-[16ch]" lines={['Custom web development,', 'end to end.']} />
+              <span className="eyebrow mb-6"><ScrambleText key={locale} as="span" text={t('svcPrev.eyebrow')} /></span>
+              <MaskTitle key={locale} className="display-md mt-5 max-w-[16ch]" lines={t('svcPrev.title').split('|')} />
             </div>
-            <Link to="/services" className="btn btn--ghost !text-paper !border-white/25 hover:!border-white self-start" data-cursor="All services">All services →</Link>
+            <Link to="/services" className="btn btn--ghost !text-paper !border-white/25 hover:!border-white self-start" data-cursor="All services">{t('svcPrev.all')}</Link>
           </div>
 
           <div className="border-t border-white/12">
@@ -119,10 +117,10 @@ export default function Home() {
         <div className="shell">
           <div className="flex items-end justify-between gap-6 mb-12">
             <div>
-              <span className="eyebrow mb-6"><ScrambleText as="span" text="Proof" /></span>
-              <MaskTitle className="display-md mt-5 max-w-[14ch]" lines={['Results, not', 'just visuals.']} />
+              <span className="eyebrow mb-6"><ScrambleText key={locale} as="span" text={t('workPrev.eyebrow')} /></span>
+              <MaskTitle key={locale} className="display-md mt-5 max-w-[14ch]" lines={t('workPrev.title').split('|')} />
             </div>
-            <Link to="/work" className="btn btn--ghost self-start hidden sm:inline-flex" data-cursor="All work">All work →</Link>
+            <Link to="/work" className="btn btn--ghost self-start hidden sm:inline-flex" data-cursor="All work">{t('workPrev.all')}</Link>
           </div>
 
           <div className="grid md:grid-cols-2 gap-[clamp(20px,3vw,40px)]">
@@ -141,7 +139,7 @@ export default function Home() {
                       <span className="font-mono text-[13px] text-ink-faint">{p.cat}</span>
                     </div>
                     <div className="flex flex-wrap gap-1.5 justify-end max-w-[55%]">
-                      {p.tags.map((t) => <span key={t} className="font-mono text-[11px] px-2.5 py-1 rounded-full border border-line text-ink-soft">{t}</span>)}
+                      {p.tags.map((tag) => <span key={tag} className="font-mono text-[11px] px-2.5 py-1 rounded-full border border-line text-ink-soft">{tag}</span>)}
                     </div>
                   </div>
                 </Link>
@@ -162,14 +160,11 @@ export default function Home() {
       <section className="relative py-[clamp(70px,11vh,150px)]">
         <div className="ledger-grid" />
         <div className="shell relative z-10 text-center max-w-3xl mx-auto">
-          <span className="eyebrow justify-center mb-7" style={{ display: 'inline-flex' }}><ScrambleText as="span" text="Investment, not expense" /></span>
-          <MaskTitle className="display-md mb-6" lines={['Priced around the', 'return, not the hours.']} />
+          <span className="eyebrow justify-center mb-7" style={{ display: 'inline-flex' }}><ScrambleText key={locale} as="span" text={t('priceTeaser.eyebrow')} /></span>
+          <MaskTitle key={locale} className="display-md mb-6" lines={t('priceTeaser.title').split('|')} />
           <Reveal delay={0.2}>
-            <p className="text-lg text-ink-soft mb-10">
-              See how an investment turns into presence, leads, customers and revenue —
-              with transparent ranges for every stage of growth.
-            </p>
-            <Magnetic to="/pricing" className="btn btn--accent" cursor="See pricing"><span className="btn__dot" /> Explore investment & returns</Magnetic>
+            <p className="text-lg text-ink-soft mb-10">{t('priceTeaser.body')}</p>
+            <Magnetic to="/pricing" className="btn btn--accent" cursor="See pricing"><span className="btn__dot" /> {t('priceTeaser.cta')}</Magnetic>
           </Reveal>
         </div>
       </section>

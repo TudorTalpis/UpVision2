@@ -2,6 +2,7 @@ import { Fragment, useRef, useLayoutEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { useMagnetic, useCountUp } from '../lib/hooks'
+import { useLocalePath } from '../lib/i18n'
 import { gsap, ScrollTrigger, registerGsap, prefersReduced } from '../lib/gsap'
 
 // Play when scrolled into view; reverse only when scrolled back up past it
@@ -88,8 +89,9 @@ export function Parallax({ children, speed = 0.12, className = '', as = 'div' })
 /* Magnetic link/button. */
 export function Magnetic({ children, className = '', to, href, cursor, onClick, strength = 0.35, ...rest }) {
   const ref = useMagnetic(strength)
+  const localePath = useLocalePath()
   const props = { ref, className, 'data-cursor': cursor, onClick, ...rest }
-  if (to) return <Link to={to} {...props}>{children}</Link>
+  if (to) return <Link to={localePath(to)} {...props}>{children}</Link>
   if (href) return <a href={href} {...props}>{children}</a>
   return <button {...props}>{children}</button>
 }

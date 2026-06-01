@@ -15,8 +15,41 @@ export default {
   'hero.sub': 'UpVision proiectează și dezvoltă site-uri și aplicații web rapide, personalizate, pentru afaceri din Moldova și nu numai — create pentru a inspira încredere, a genera clienți și a se amortiza.',
   'hero.ctaPrimary': 'Începe proiectul',
   'hero.ctaSecondary': 'Vezi proiectele',
+  'hero.steps': 'Descoperire,Design,Construire,Lansare,Creștere',
 
+  'manifesto.eyebrow': 'Altă perspectivă',
+  'manifesto.title': 'Un site nu este o cheltuială|în bilanțul tău.|Este cel mai muncitor|activ pe care îl deții.',
+  'manifesto.c1t': 'Lucrează non-stop',
+  'manifesto.c1d': 'Cel mai bun agent de vânzări al tău nu doarme, nu lipsește niciodată și vinde inclusiv în timp ce dormi.',
+  'manifesto.c2t': 'Se acumulează',
+  'manifesto.c2d': 'Îmbunătățirile de SEO, conținut și conversie se adună — randamentul crește mult după lansare.',
+  'manifesto.c3t': 'Este măsurabil',
+  'manifesto.c3d': 'Fiecare leu se traduce în trafic, clienți și venit pe care chiar le poți vedea într-un panou.',
+
+  'journey.eyebrow': 'Cum se construiește un site',
+  'journey.title': 'Privește cum o idee devine un',
+  'journey.titleAccent': 'site funcțional.',
+  'journey.sub': 'De la o schiță brută la un site live care aduce clienți — asta facem de fapt și așa se transformă în creștere pentru afacere.',
+
+  'svcPrev.eyebrow': 'Ce construim',
+  'svcPrev.title': 'Dezvoltare web personalizată,|de la cap la coadă.',
+  'svcPrev.all': 'Toate serviciile →',
+
+  'workPrev.eyebrow': 'Dovada',
+  'workPrev.title': 'Rezultate, nu|doar imagini.',
+  'workPrev.all': 'Toate proiectele →',
+
+  'priceTeaser.eyebrow': 'Investiție, nu cheltuială',
+  'priceTeaser.title': 'Preț stabilit în funcție|de site-ul de care ai nevoie.',
+  'priceTeaser.body': 'Vezi cum o investiție se transformă în prezență, clienți și venit — cu intervale de preț transparente pentru fiecare tip de site.',
+  'priceTeaser.cta': 'Vezi prețuri și beneficii',
+
+  'footer.cta': 'Hai să construim|site-ul tău.',
+  'footer.ctaBtn': 'Programează o discuție',
   'footer.tagline': 'Construim site-uri care ajută afacerile să crească.',
   'footer.location': 'Dezvoltare web personalizată · Chișinău, Moldova',
   'footer.addons': 'Opțional, la cerere: boți Telegram · automatizare · integrări',
+  'footer.explore': 'Explorează',
+  'footer.studio': 'Studio',
+  'footer.connect': 'Contact',
 }

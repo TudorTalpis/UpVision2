@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useMagnetic } from '../lib/hooks'
+import { useT, useLocale, useLocalePath, useSwitchLocale, LOCALES, LOCALE_LABELS } from '../lib/i18n'
 
 const LINKS = [
-  { to: '/work', label: 'Work' },
-  { to: '/services', label: 'Services' },
-  { to: '/process', label: 'Process' },
-  { to: '/pricing', label: 'Pricing' },
-  { to: '/about', label: 'About' },
+  { to: '/work', key: 'nav.work' },
+  { to: '/services', key: 'nav.services' },
+  { to: '/process', key: 'nav.process' },
+  { to: '/pricing', key: 'nav.pricing' },
+  { to: '/about', key: 'nav.about' },
 ]
 
 export default function Nav() {
@@ -16,6 +17,8 @@ export default function Nav() {
   const [open, setOpen] = useState(false)
   const { pathname } = useLocation()
   const cta = useMagnetic(0.3)
+  const t = useT()
+  const lp = useLocalePath()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 32)
@@ -35,29 +38,32 @@ export default function Nav() {
           borderBottom: scrolled ? '1px solid var(--color-line)' : '1px solid transparent',
         }}
       >
-        <Link to="/" className="flex items-center gap-2.5" aria-label="UpVision home">
+        <NavLink to={lp('/')} className="flex items-center gap-2.5" aria-label="UpVision home">
           <Logo />
           <span className="font-display text-[19px] font-semibold tracking-tight">UpVision</span>
-        </Link>
+        </NavLink>
 
         <nav className="hidden md:flex items-center gap-8">
           {LINKS.map((l) => (
             <NavLink
               key={l.to}
-              to={l.to}
+              to={lp(l.to)}
               data-cursor=""
               className={({ isActive }) =>
                 `text-[15px] transition-colors relative ${isActive ? 'text-ink' : 'text-ink-soft hover:text-ink'}`
               }
             >
-              {l.label}
+              {t(l.key)}
             </NavLink>
           ))}
         </nav>
 
-        <Link ref={cta} to="/contact" className="btn btn--accent hidden md:inline-flex !py-3 !px-5 !text-sm" data-cursor="Let's talk">
-          <span className="btn__dot" /> Start a project
-        </Link>
+        <div className="hidden md:flex items-center gap-5">
+          <LangSwitcher />
+          <NavLink ref={cta} to={lp('/contact')} className="btn btn--accent inline-flex !py-3 !px-5 !text-sm" data-cursor="Let's talk">
+            <span className="btn__dot" /> {t('nav.cta')}
+          </NavLink>
+        </div>
 
         <button
           className="md:hidden flex flex-col gap-[5px] w-10 h-10 items-center justify-center"
@@ -78,23 +84,52 @@ export default function Nav() {
             exit={{ clipPath: 'inset(0 0 100% 0)' }}
             transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
           >
-            {LINKS.concat({ to: '/contact', label: 'Start a project' }).map((l, i) => (
+            {LINKS.concat({ to: '/contact', key: 'nav.cta' }).map((l, i) => (
               <motion.div
                 key={l.to}
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.12 + i * 0.06 }}
               >
-                <Link to={l.to} className="font-display font-medium flex items-baseline gap-4 py-2.5 border-b border-line text-[clamp(34px,11vw,60px)]">
+                <NavLink to={lp(l.to)} className="font-display font-medium flex items-baseline gap-4 py-2.5 border-b border-line text-[clamp(34px,11vw,60px)]">
                   <span className="font-mono text-accent text-xs">0{i + 1}</span>
-                  {l.label}
-                </Link>
+                  {t(l.key)}
+                </NavLink>
               </motion.div>
             ))}
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="mt-10">
+              <LangSwitcher size="lg" />
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
     </>
+  )
+}
+
+function LangSwitcher({ size = 'sm' }) {
+  const { locale } = useLocale()
+  const switchTo = useSwitchLocale()
+  const big = size === 'lg'
+  return (
+    <div className={`flex items-center ${big ? 'gap-3' : 'gap-2'}`} role="group" aria-label="Language">
+      {LOCALES.map((l, i) => (
+        <span key={l} className="flex items-center">
+          {i > 0 && <span className={`text-ink-faint ${big ? 'mx-1 text-sm' : 'mr-2 text-[11px]'}`}>·</span>}
+          <button
+            type="button"
+            onClick={() => switchTo(l)}
+            aria-current={locale === l ? 'true' : undefined}
+            data-cursor=""
+            className={`font-mono uppercase tracking-[0.12em] transition-colors ${big ? 'text-base' : 'text-[12px]'} ${
+              locale === l ? 'text-accent' : 'text-ink-soft hover:text-ink'
+            }`}
+          >
+            {LOCALE_LABELS[l]}
+          </button>
+        </span>
+      ))}
+    </div>
   )
 }
 

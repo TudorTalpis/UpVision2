@@ -15,8 +15,41 @@ export default {
   'hero.sub': 'UpVision designs and builds fast, custom websites and web apps for businesses in Moldova and beyond — engineered to win trust, generate leads and pay for themselves.',
   'hero.ctaPrimary': 'Start your project',
   'hero.ctaSecondary': 'See the work',
+  'hero.steps': 'Discover,Design,Build,Launch,Grow',
 
+  'manifesto.eyebrow': 'The reframe',
+  'manifesto.title': 'A website is not a cost|on your balance sheet.|It’s your hardest-working|business asset.',
+  'manifesto.c1t': 'It works 24/7',
+  'manifesto.c1d': 'Your best salesperson never sleeps, never calls in sick, and closes while you do.',
+  'manifesto.c2t': 'It compounds',
+  'manifesto.c2d': 'SEO, content and conversion improvements stack — the return grows long after launch.',
+  'manifesto.c3t': 'It’s measurable',
+  'manifesto.c3d': 'Every euro maps to traffic, leads and revenue you can actually see in a dashboard.',
+
+  'journey.eyebrow': 'How a website gets built',
+  'journey.title': 'Watch an idea become a',
+  'journey.titleAccent': 'working website.',
+  'journey.sub': 'From a rough wireframe to a live site winning customers — this is what we actually do, and how it turns into business growth.',
+
+  'svcPrev.eyebrow': 'What we build',
+  'svcPrev.title': 'Custom web development,|end to end.',
+  'svcPrev.all': 'All services →',
+
+  'workPrev.eyebrow': 'Proof',
+  'workPrev.title': 'Results, not|just visuals.',
+  'workPrev.all': 'All work →',
+
+  'priceTeaser.eyebrow': 'Investment, not expense',
+  'priceTeaser.title': 'Priced around the|website you need.',
+  'priceTeaser.body': 'See how an investment turns into presence, leads, customers and revenue — with transparent ranges for every type of website.',
+  'priceTeaser.cta': 'Explore pricing & returns',
+
+  'footer.cta': 'Let’s build your|website.',
+  'footer.ctaBtn': 'Book a strategy call',
   'footer.tagline': 'We build websites that help businesses grow.',
   'footer.location': 'Custom web development · Chișinău, Moldova',
   'footer.addons': 'Add-ons on request: Telegram bots · automation · integrations',
+  'footer.explore': 'Explore',
+  'footer.studio': 'Studio',
+  'footer.connect': 'Connect',
 }
