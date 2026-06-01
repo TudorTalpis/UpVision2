@@ -1,5 +1,6 @@
 import { useRef, useLayoutEffect } from 'react'
 import { gsap, registerGsap, prefersReduced } from '../lib/gsap'
+import { isTouch } from '../lib/hooks'
 
 /**
  * Char/word reveal. Splits `text` into spans and animates them in with a
@@ -22,10 +23,11 @@ export default function SplitText({
     const targets = root.querySelectorAll('[data-piece]')
     if (prefersReduced()) { gsap.set(targets, { clearProps: 'all' }); return }
     registerGsap()
+    const useBlur = blur && !isTouch() // blur filters stutter on phones
     const ctx = gsap.context(() => {
-      const from = { yPercent: 70, autoAlpha: 0, filter: blur ? 'blur(10px)' : 'blur(0px)' }
+      const from = { yPercent: 70, autoAlpha: 0, ...(useBlur ? { filter: 'blur(10px)' } : {}) }
       const to = {
-        yPercent: 0, autoAlpha: 1, filter: 'blur(0px)',
+        yPercent: 0, autoAlpha: 1, ...(useBlur ? { filter: 'blur(0px)' } : {}),
         duration: 0.85, ease: 'expo.out', stagger,
       }
       if (play === 'load') {

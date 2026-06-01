@@ -1,7 +1,7 @@
 import { Fragment, useRef, useLayoutEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { useMagnetic, useCountUp } from '../lib/hooks'
+import { useMagnetic, useCountUp, isTouch } from '../lib/hooks'
 import { useLocalePath } from '../lib/i18n'
 import { gsap, ScrollTrigger, registerGsap, prefersReduced } from '../lib/gsap'
 
@@ -40,11 +40,12 @@ export function MaskTitle({ lines, className = '', as: Tag = 'h2' }) {
     const words = root.querySelectorAll('[data-word]')
     if (prefersReduced()) { gsap.set(words, { clearProps: 'all' }); return }
     registerGsap()
+    const blur = isTouch() ? {} : { filter: 'blur(12px)' } // blur is janky on phones
     const ctx = gsap.context(() => {
       gsap.fromTo(words,
-        { yPercent: 90, autoAlpha: 0, filter: 'blur(12px)' },
+        { yPercent: 90, autoAlpha: 0, ...blur },
         {
-          yPercent: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 0.85, ease: 'expo.out', stagger: 0.06,
+          yPercent: 0, autoAlpha: 1, ...(isTouch() ? {} : { filter: 'blur(0px)' }), duration: 0.85, ease: 'expo.out', stagger: 0.06,
           scrollTrigger: { trigger: root, start: 'top 82%', toggleActions: REVERSIBLE },
         })
     }, ref)
