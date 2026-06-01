@@ -146,13 +146,26 @@ function PhaseVisual({ index }) {
         </div>
       )
     case 2:
-    case 3:
       return (
         <div className="w-[88%] bg-night rounded-lg p-4 font-mono text-[12px] leading-relaxed text-left">
           <div className="text-paper/40 mb-1">Hero.jsx</div>
           <div><span className="text-[#ff7b9c]">export function</span> <span className="text-[#7fd1c4]">Hero</span>() {'{'}</div>
-          <div className="pl-6 text-[#9bd17f]">Grow your business online{index === 3 && <span className="inline-block w-1.5 h-3.5 bg-gain align-middle ml-0.5" style={{ animation: 'blink 1s steps(1) infinite' }} />}</div>
+          <div className="pl-6 text-[#9bd17f]">Grow your business online</div>
           <div>{'}'}</div>
+        </div>
+      )
+    case 3: // a single line being edited in place
+      return (
+        <div className="w-[88%] bg-night rounded-lg p-4 font-mono text-[12.5px] leading-relaxed text-left">
+          <div className="text-paper/40 mb-2">Hero.jsx — line 2</div>
+          <div className="whitespace-nowrap">
+            <span className="text-[#7fd1c4]">&lt;h1&gt;</span>
+            <span className="text-[#9bd17f]">Grow </span>
+            <span className="edit-ins text-[#9bd17f]">your business </span>
+            <span className="edit-caret" />
+            <span className="text-[#9bd17f]">online</span>
+            <span className="text-[#7fd1c4]">&lt;/h1&gt;</span>
+          </div>
         </div>
       )
     case 4:
