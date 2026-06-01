@@ -33,7 +33,7 @@ export default function SplitText({
       } else {
         gsap.fromTo(targets, from, {
           ...to,
-          scrollTrigger: { trigger: root, start, toggleActions: 'play reverse play reverse' },
+          scrollTrigger: { trigger: root, start, toggleActions: 'play none none reverse' },
         })
       }
     }, ref)

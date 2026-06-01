@@ -30,4 +30,9 @@ if (typeof window !== 'undefined') {
     clearTimeout(rt)
     rt = setTimeout(() => ScrollTrigger.refresh(), 200)
   })
+  // Web fonts load after first paint and shift layout — recompute trigger
+  // positions once they're ready so reveals fire at the right scroll points.
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => ScrollTrigger.refresh())
+  }
 }

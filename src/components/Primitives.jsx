@@ -1,10 +1,12 @@
-import { useRef, useLayoutEffect } from 'react'
+import { Fragment, useRef, useLayoutEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { useMagnetic, useCountUp } from '../lib/hooks'
-import { gsap, registerGsap, prefersReduced } from '../lib/gsap'
+import { gsap, ScrollTrigger, registerGsap, prefersReduced } from '../lib/gsap'
 
-const REVERSIBLE = 'play reverse play reverse'
+// Play when scrolled into view; reverse only when scrolled back up past it
+// (so content stays visible as you continue down, and replays on the way up).
+const REVERSIBLE = 'play none none reverse'
 
 /* Scroll reveal — rises in on the way down, reverses on the way up, every pass. */
 export function Reveal({ children, delay = 0, y = 28, x = 0, className = '', as = 'div' }) {
@@ -28,21 +30,21 @@ export function Reveal({ children, delay = 0, y = 28, x = 0, className = '', as 
   return <Tag ref={ref} className={className}>{children}</Tag>
 }
 
-/* Headline with masked line-by-line rise — reversible. */
+/* Headline with word-by-word blur-to-sharp reveal — reverses on every pass. */
 export function MaskTitle({ lines, className = '', as: Tag = 'h2' }) {
   const ref = useRef(null)
   useLayoutEffect(() => {
     const root = ref.current
     if (!root) return
-    const inners = root.querySelectorAll('[data-line]')
-    if (prefersReduced()) { gsap.set(inners, { yPercent: 0 }); return }
+    const words = root.querySelectorAll('[data-word]')
+    if (prefersReduced()) { gsap.set(words, { clearProps: 'all' }); return }
     registerGsap()
     const ctx = gsap.context(() => {
-      gsap.fromTo(inners,
-        { yPercent: 110 },
+      gsap.fromTo(words,
+        { yPercent: 90, autoAlpha: 0, filter: 'blur(12px)' },
         {
-          yPercent: 0, duration: 0.9, ease: 'expo.out', stagger: 0.08,
-          scrollTrigger: { trigger: root, start: 'top 80%', toggleActions: REVERSIBLE },
+          yPercent: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 0.85, ease: 'expo.out', stagger: 0.06,
+          scrollTrigger: { trigger: root, start: 'top 82%', toggleActions: REVERSIBLE },
         })
     }, ref)
     return () => ctx.revert()
@@ -50,12 +52,37 @@ export function MaskTitle({ lines, className = '', as: Tag = 'h2' }) {
   return (
     <Tag ref={ref} className={className}>
       {lines.map((l, i) => (
-        <span key={i} style={{ display: 'block', overflow: 'hidden', paddingBottom: '0.05em' }}>
-          <span data-line style={{ display: 'block' }}>{l}</span>
+        <span key={i} style={{ display: 'block' }}>
+          {l.split(' ').map((w, j) => (
+            <Fragment key={j}>
+              <span data-word style={{ display: 'inline-block', willChange: 'transform, opacity' }}>{w}</span>{' '}
+            </Fragment>
+          ))}
         </span>
       ))}
     </Tag>
   )
+}
+
+/* Scroll-linked parallax — drifts as you scroll (scrubbed). Keep speed small. */
+export function Parallax({ children, speed = 0.12, className = '', as = 'div' }) {
+  const ref = useRef(null)
+  const Tag = as
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el || prefersReduced()) return
+    registerGsap()
+    const ctx = gsap.context(() => {
+      gsap.fromTo(el,
+        { yPercent: -speed * 100 },
+        {
+          yPercent: speed * 100, ease: 'none',
+          scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: true },
+        })
+    }, ref)
+    return () => ctx.revert()
+  }, [speed])
+  return <Tag ref={ref} className={className}>{children}</Tag>
 }
 
 /* Magnetic link/button. */
