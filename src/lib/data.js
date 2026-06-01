@@ -15,79 +15,60 @@ export const STAGES = [
 
 export const SERVICES = [
   {
-    slug: 'web-design-development',
-    n: '01',
-    title: 'Website Design & Development',
-    short: 'High-performance sites engineered to convert.',
-    body: 'Fast, accessible, SEO-ready websites and web apps built on a modern React stack — designed around the actions that grow your business.',
-    deliverables: ['Design system', 'React / headless build', 'CMS & content', 'Core Web Vitals', 'Analytics wiring'],
+    slug: 'custom-websites', n: '01', title: 'Custom Websites',
+    short: 'Bespoke sites engineered to convert — never a template.',
+    body: 'Design and development of fast, accessible, search-friendly websites built around the actions that grow your business. Modern React stack, your content, your brand.',
+    deliverables: ['Tailored design', 'React build', 'CMS & content', 'Core Web Vitals', 'Analytics wiring'],
     outcome: 'A site that earns its keep — faster load, higher conversion, lower cost-per-lead.',
   },
   {
-    slug: 'branding',
-    n: '02',
-    title: 'Branding',
-    short: 'Identities the market remembers.',
-    body: 'Positioning, naming, visual identity and voice. We make you instantly recognisable and impossible to confuse with the competition.',
-    deliverables: ['Positioning', 'Naming', 'Logo & system', 'Guidelines', 'Brand assets'],
-    outcome: 'Premium perception that lets you charge more and close faster.',
+    slug: 'landing-pages', n: '02', title: 'Landing Pages',
+    short: 'Single-purpose pages that turn campaigns into leads.',
+    body: 'High-converting landing pages for launches, ads and campaigns — built fast, instrumented for measurement, and tuned around one clear action.',
+    deliverables: ['Conversion-first layout', 'Copy structure', 'Forms & tracking', 'A/B-ready', 'Fast load'],
+    outcome: 'More qualified leads from the traffic you already pay for.',
   },
   {
-    slug: 'ui-ux-design',
-    n: '03',
-    title: 'UI/UX Design',
-    short: 'Interfaces designed for revenue, not applause.',
-    body: 'Research-led product and interface design. Every screen, state and flow is shaped around clarity, trust and the next click.',
-    deliverables: ['UX research', 'Wireframes', 'UI design', 'Prototypes', 'Design system'],
-    outcome: 'Lower friction, higher completion, measurable lift in conversion.',
+    slug: 'business-websites', n: '03', title: 'Business Websites',
+    short: 'Credible, fast sites that win trust and inquiries.',
+    body: 'Professional websites for established businesses — clear structure, strong first impression, and the trust signals that turn visitors into inquiries.',
+    deliverables: ['Sitemap & UX', 'Responsive design', 'SEO foundations', 'CMS', 'Lead capture'],
+    outcome: 'A presence that makes customers choose you with confidence.',
   },
   {
-    slug: 'automation',
-    n: '04',
-    title: 'Automation',
-    short: 'Quiet systems that remove busywork.',
-    body: 'We connect your tools and automate the repetitive work — lead routing, onboarding, billing, reporting — so your team scales without headcount.',
-    deliverables: ['Workflow mapping', 'Integrations', 'CRM automation', 'AI assistants', 'Dashboards'],
-    outcome: 'Hours back every week and fewer things falling through the cracks.',
+    slug: 'web-applications', n: '04', title: 'Web Applications',
+    short: 'Custom web apps and internal tools on a modern stack.',
+    body: 'From customer portals to dashboards and internal tools — custom web applications built to be fast, reliable and maintainable by your team.',
+    deliverables: ['Product UX', 'React app', 'Auth & data', 'Integrations', 'Maintainable code'],
+    outcome: 'Software that removes friction and scales with the business.',
   },
   {
-    slug: 'business-digitalization',
-    n: '05',
-    title: 'Business Digitalization',
-    short: 'Turn an offline operation into a digital one.',
-    body: 'We move your operation online end-to-end — bookings, payments, customer portals, internal tools — into one coherent digital backbone.',
-    deliverables: ['Audit', 'Tooling strategy', 'Portals & dashboards', 'Payments', 'Training'],
-    outcome: 'A business that runs online, with data you can actually act on.',
-  },
-  {
-    slug: 'marketing-assets',
-    n: '06',
-    title: 'Marketing Assets',
-    short: 'The creative that fuels the funnel.',
-    body: 'Landing pages, ad creative, social systems, decks and motion — produced as a system so your message stays sharp across every channel.',
-    deliverables: ['Landing pages', 'Ad creative', 'Social kit', 'Pitch decks', 'Motion'],
-    outcome: 'A consistent, conversion-ready presence wherever customers find you.',
-  },
-  {
-    slug: 'product-strategy',
-    n: '07',
-    title: 'Product Strategy',
-    short: 'The plan that makes the spend pay off.',
-    body: 'Before a pixel: market research, business model, roadmap and a measurement plan — so every investment maps to a result.',
-    deliverables: ['Market research', 'Business model', 'Roadmap', 'KPIs', 'GTM plan'],
-    outcome: 'Clarity and a sequenced plan that de-risks the whole investment.',
+    slug: 'ecommerce', n: '05', title: 'E-commerce',
+    short: 'Online stores built to sell and scale.',
+    body: 'Fast, conversion-focused online stores — clean product experiences, reliable checkout, and the performance that keeps shoppers buying.',
+    deliverables: ['Store UX', 'Catalog & checkout', 'Payments', 'Performance', 'Analytics'],
+    outcome: 'More revenue per visitor and a store that grows with you.',
   },
 ]
+
+/* Secondary — mentioned lightly, never as a primary offer. */
+export const ADDONS = [
+  { title: 'Telegram bots',      d: 'Customer or internal bots wired into your site and tools.' },
+  { title: 'Business automation', d: 'Automate the repetitive work around your website where it pays off.' },
+  { title: 'Custom integrations', d: 'Connect your site to CRMs, payments and the tools you already use.' },
+  { title: 'Workflow automation',  d: 'Quiet systems that remove busywork once the site is live.' },
+]
+export const ADDONS_NOTE = 'Already building your site with us? We can wire in automation and integrations where they pay off — optional, on request.'
 
 export const PROCESS = [
-  { n: '01', title: 'Discover', d: 'We pressure-test the idea against the market, the money and the maths. You leave with a clear thesis.', out: 'Strategy & scope' },
-  { n: '02', title: 'Define',   d: 'Positioning, brand direction and the architecture of the experience. The blueprint everyone aligns on.', out: 'Brand & blueprint' },
-  { n: '03', title: 'Design',   d: 'High-fidelity design of every screen and state, prototyped and tested before a line of code.', out: 'Designed product' },
-  { n: '04', title: 'Build',    d: 'Engineering on a modern stack — fast, accessible, maintainable, instrumented from day one.', out: 'Production software' },
-  { n: '05', title: 'Launch',   d: 'QA, SEO, analytics and a go-live plan. Staging to the world, with a safety net.', out: 'Live product' },
-  { n: '06', title: 'Grow',     d: 'Post-launch experiments, optimisation and reporting. We tune the system toward revenue.', out: 'Compounding growth' },
+  { n: '01', title: 'Discover', d: 'We clarify your goal, audience and the actions that make you money — and scope the site around them.', out: 'Strategy & scope' },
+  { n: '02', title: 'Design',   d: 'Structure, then high-fidelity design of every page and state — reviewed before a line of code.', out: 'Designed site' },
+  { n: '03', title: 'Build',    d: 'Engineering on a modern React stack — fast, accessible, responsive, instrumented from day one.', out: 'Production site' },
+  { n: '04', title: 'Launch',   d: 'QA, SEO, analytics and a go-live plan. Staging to the world, with a safety net.', out: 'Live website' },
+  { n: '05', title: 'Grow',     d: 'Post-launch fixes, optimisation and reporting — optional automation where it pays off.', out: 'Compounding results' },
 ]
 
+// NOTE: project results and stats below are ILLUSTRATIVE placeholders.
 export const PROJECTS = [
   {
     slug: 'northwind',
@@ -100,7 +81,7 @@ export const PROJECTS = [
     metricC: ['2.4×', 'demo bookings'],
     summary: 'A tired B2B platform repositioned, redesigned and rebuilt into a category-credible product site.',
     accent: '#3b6cf2',
-    tags: ['Brand', 'UI/UX', 'Web', 'CRO'],
+    tags: ['Web app', 'B2B site', 'CRO'],
   },
   {
     slug: 'homemade',
@@ -113,7 +94,7 @@ export const PROJECTS = [
     metricC: ['4.8★', 'app store rating'],
     summary: 'A two-sided marketplace taken from napkin to launched app, brand, and growth engine.',
     accent: '#c0552f',
-    tags: ['Strategy', 'Brand', 'App', 'Launch'],
+    tags: ['Web app', 'Launch', 'Performance'],
   },
   {
     slug: 'atlas-health',
@@ -126,7 +107,7 @@ export const PROJECTS = [
     metricC: ['9 → 1', 'tools consolidated'],
     summary: 'A fragmented clinic operation digitalised into one patient platform with automated intake.',
     accent: '#1f8a5b',
-    tags: ['Product', 'Web', 'Automation'],
+    tags: ['Web app', 'Integrations', 'Automation'],
   },
   {
     slug: 'faro-coffee',
@@ -139,40 +120,26 @@ export const PROJECTS = [
     metricC: ['1.2s', 'median load'],
     summary: 'A specialty roaster rebranded and re-platformed into a fast, beautiful storefront.',
     accent: '#8a5a1f',
-    tags: ['Brand', 'E-commerce', 'Growth'],
+    tags: ['E-commerce', 'Performance', 'SEO'],
   },
 ]
 
+// NOTE: prices and ranges are ILLUSTRATIVE placeholders — replace before launch.
 export const PRICING = [
   {
-    name: 'Launch',
-    tag: 'For getting a credible presence live fast',
-    invest: '7k',
-    range: '$7k–$12k',
-    horizon: '3–4 weeks',
-    points: ['Brand essentials', 'Up to 6 designed pages', 'React build + CMS', 'SEO foundations', 'Analytics & launch'],
-    returns: 'A professional presence that turns existing demand into leads.',
-    featured: false,
+    name: 'Landing Page', tag: 'One page, built to convert', invest: '1.5k', range: '$1.5k–$3k', horizon: '1–2 weeks',
+    points: ['Single high-converting page', 'Custom design', 'Mobile-first build', 'SEO basics', 'Analytics & launch'],
+    returns: 'Turns campaign and ad traffic into qualified leads.', featured: false,
   },
   {
-    name: 'Growth',
-    tag: 'For businesses ready to compound results',
-    invest: '18k',
-    range: '$18k–$35k',
-    horizon: '6–10 weeks',
-    points: ['Full brand system', 'Product/UX design', 'Custom web app or store', 'Automation & integrations', 'CRO + 3 months of growth'],
-    returns: 'A growth system: more qualified traffic, higher conversion, lower CAC.',
-    featured: true,
+    name: 'Business Website', tag: 'A credible presence that wins trust', invest: '4k', range: '$4k–$9k', horizon: '3–5 weeks',
+    points: ['Up to 8 designed pages', 'React build + CMS', 'SEO foundations', 'Lead capture', 'Launch & analytics'],
+    returns: 'A professional site that turns visitors into inquiries.', featured: true,
   },
   {
-    name: 'Partner',
-    tag: 'An embedded team for ambitious roadmaps',
-    invest: 'Custom',
-    range: 'Monthly retainer',
-    horizon: 'Ongoing',
-    points: ['Dedicated squad', 'Continuous design & build', 'Automation at scale', 'Experimentation program', 'Quarterly strategy'],
-    returns: 'A long-term engine — shipping, measuring and growing every single month.',
-    featured: false,
+    name: 'Web App / Store', tag: 'Custom software or e-commerce', invest: '12k', range: '$12k+', horizon: '6–10 weeks',
+    points: ['Product UX & design', 'Custom web app or store', 'Integrations & payments', 'Performance budget', 'Post-launch support'],
+    returns: 'A system that removes friction and scales revenue.', featured: false,
   },
 ]
 
@@ -184,9 +151,9 @@ export const STATS = [
 ]
 
 export const FAQ = [
-  ['Is a website really an investment, not a cost?', 'A cost disappears. An investment returns. We design every engagement around a measurable outcome — more qualified leads, higher conversion, lower acquisition cost — and instrument it so you can see the return.'],
-  ['How fast can we launch?', 'A focused Launch engagement goes live in 3–4 weeks. Larger growth systems run 6–10 weeks. We sequence delivery so something valuable ships early and often.'],
-  ['Do you only build websites?', 'No — the website is one component. We build the surrounding system: brand, product design, automation, and the growth program that turns visitors into revenue.'],
-  ['What happens after launch?', 'That’s where the compounding starts. We run experiments, optimise conversion and report on what’s working — turning a launched product into a growing business.'],
-  ['Who owns the work?', 'You do — code, design files, brand assets, accounts. No lock-in. We build things your team can actually maintain.'],
+  ['Is a website really an investment, not a cost?', 'A cost disappears; an investment returns. We scope every build around a measurable outcome — more qualified leads, higher conversion, lower acquisition cost — and instrument it so you can see the return.'],
+  ['How fast can you build my website?', 'A landing page ships in 1–2 weeks, a business website in 3–5 weeks, and a web app or store in 6–10 weeks. We sequence delivery so something valuable ships early.'],
+  ['Do you only build websites?', 'Websites and web apps are our core work. We can also add Telegram bots, integrations and automation on request — but only where they clearly pay off for your site.'],
+  ['Do you work with businesses in Moldova?', 'Yes — we are a custom web development studio based in Chișinău, Moldova, working with local businesses and clients abroad.'],
+  ['Who owns the work?', 'You do — code, design files, accounts. No lock-in. We build sites your team can actually maintain.'],
 ]
